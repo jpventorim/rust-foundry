@@ -42,7 +42,7 @@ pub struct LayoutOptions {
     pub page_size: PageSize,
     /// Pixels per inch used when an item has no explicit print width.
     pub dpi: f64,
-    /// Equal margins on all four edges, in millimetres.
+    /// Equal margins on all four edges, in millimetres; defaults to 3 mm.
     pub margin_mm: f64,
     /// Minimum distance between image rectangles, in millimetres.
     pub spacing_mm: f64,
@@ -55,7 +55,7 @@ impl Default for LayoutOptions {
         Self {
             page_size: PageSize::A4,
             dpi: 300.0,
-            margin_mm: 10.0,
+            margin_mm: 3.0,
             spacing_mm: 2.0,
             allow_rotation: true,
         }

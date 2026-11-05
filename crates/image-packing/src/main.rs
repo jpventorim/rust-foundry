@@ -29,7 +29,7 @@ struct Args {
     #[arg(long, value_enum, default_value = "portrait")]
     orientation: Orientation,
     /// Margin on each page edge, in millimetres.
-    #[arg(long, default_value_t = 10.0)]
+    #[arg(long, default_value_t = LayoutOptions::default().margin_mm)]
     margin_mm: f64,
     /// Minimum gap between images, in millimetres.
     #[arg(long, default_value_t = 2.0)]

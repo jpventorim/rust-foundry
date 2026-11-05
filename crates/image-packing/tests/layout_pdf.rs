@@ -12,6 +12,7 @@ fn small_copies_fill_earlier_pages_without_increasing_page_count() {
     ];
     let options = LayoutOptions {
         allow_rotation: true,
+        margin_mm: 10.0,
         ..Default::default()
     };
     let result = layout(&items, &options).unwrap();
@@ -68,7 +69,10 @@ fn independent_quantities_span_pages_without_overlap_or_missing_copies() {
         ImageItem::new("same", &a, 7).with_width_mm(90.0),
         ImageItem::new("same", &b, 5).with_width_mm(40.0),
     ];
-    let options = LayoutOptions::default();
+    let options = LayoutOptions {
+        margin_mm: 10.0,
+        ..Default::default()
+    };
     let result = layout(&items, &options).unwrap();
     assert!(result.pages().len() > 1);
     assert_eq!(result, layout(&items, &options).unwrap());
@@ -143,7 +147,10 @@ fn rotation_allows_an_otherwise_oversized_image() {
 #[test]
 fn exact_printable_area_fits_without_trailing_spacing() {
     let image = RgbImage::new(190, 277);
-    let options = LayoutOptions::default();
+    let options = LayoutOptions {
+        margin_mm: 10.0,
+        ..Default::default()
+    };
     let result = layout(
         &[ImageItem::new("full", &image, 2).with_width_mm(190.0)],
         &options,

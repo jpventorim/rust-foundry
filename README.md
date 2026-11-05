@@ -32,8 +32,12 @@ cargo run -p image-packing --features cli -- \
   --width-mm 50
 ```
 
-Defaults: A4 portrait, 300 DPI, 10 mm margins, 2 mm gaps. The CLI always allows
+Defaults: A4 portrait, 300 DPI, 3 mm margins, 2 mm gaps. The CLI always allows
 90-degree image rotation and adds a black border before packing (3 pixels by default).
+Use `--margin-mm N` to change the margin on all four edges, for example
+`--margin-mm 5`. The 3 mm default matches a documented minimum for plain-paper
+printing on [some Epson printers](https://files.support.epson.com/docid/cpd5/cpd56719/source/specifications/references/et2720_l3160/spex_printable_area_spc_et2720_l3160.html).
+Check your printer's printable area when choosing a smaller or larger margin.
 `--width-mm` sets the print width of **every** input, preserving aspect ratios
 and overriding DPI sizing. The library also supports individual print widths.
 Run with `--help` for all options. Errors exit unsuccessfully. Generation finishes

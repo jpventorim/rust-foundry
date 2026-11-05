@@ -124,3 +124,39 @@ fn rotation_is_always_enabled_without_a_flag() {
     );
     assert_eq!(lopdf::Document::load(output).unwrap().get_pages().len(), 1);
 }
+
+#[test]
+fn default_three_mm_margin_can_be_overridden() {
+    let dir = tempfile::tempdir().unwrap();
+    let input = dir.path().join("full.png");
+    let output = dir.path().join("default.pdf");
+    // With the default border this becomes 204 x 291 pixels, sized to fill
+    // exactly the printable A4 area when the margin is 3 mm.
+    RgbImage::new(198, 285).save(&input).unwrap();
+    let result = Command::new(env!("CARGO_BIN_EXE_image-packing"))
+        .arg("--item")
+        .arg(&input)
+        .arg("1")
+        .args(["--width-mm", "204", "--output"])
+        .arg(&output)
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert_eq!(lopdf::Document::load(output).unwrap().get_pages().len(), 1);
+    let override_output = dir.path().join("override.pdf");
+    let result = Command::new(env!("CARGO_BIN_EXE_image-packing"))
+        .arg("--item")
+        .arg(&input)
+        .arg("1")
+        .args(["--width-mm", "204", "--margin-mm", "4", "--output"])
+        .arg(&override_output)
+        .output()
+        .unwrap();
+    assert!(!result.status.success());
+    assert!(String::from_utf8_lossy(&result.stderr).contains("cannot fit"));
+    assert!(!override_output.exists());
+}
