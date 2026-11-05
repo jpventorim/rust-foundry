@@ -2,12 +2,12 @@
 //!
 //! ```
 //! use image::{Rgb, RgbImage};
-//! use image_layout::{ImageItem, LayoutOptions, compose};
+//! use image_packing::{ImageItem, LayoutOptions, compose};
 //! let image = RgbImage::from_pixel(600, 400, Rgb([20, 80, 180]));
 //! let items = [ImageItem::new("photo", &image, 8)];
 //! let output = compose(&items, &LayoutOptions::default())?;
 //! assert!(output.pdf.starts_with(b"%PDF-"));
-//! # Ok::<(), image_layout::Error>(())
+//! # Ok::<(), image_packing::Error>(())
 //! ```
 
 #![forbid(unsafe_code)]

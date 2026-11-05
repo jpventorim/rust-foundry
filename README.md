@@ -1,15 +1,17 @@
 # Rust Foundry
 
 Pack one or more images, each with an independent quantity, into a multi-page
-PDF using `image`, `bin-packing`, and `krilla`. The library and `clap` CLI are
-independent of the existing Tauri + React application.
+PDF using `image`, `bin-packing`, and `krilla`. The `image-packing` package contains
+the library and an optional `clap` CLI for development and validation. Library
+users do not compile CLI dependencies unless they enable the `cli` feature.
+The package is independent of the existing Tauri + React application.
 
 ## CLI
 
 Requires Rust 1.94 or newer.
 
 ```sh
-cargo run -p image-layout-cli -- \
+cargo run -p image-packing --features cli -- \
   --item photo.png 4 \
   --item logo.jpg 2 \
   --output layout.pdf
@@ -20,7 +22,7 @@ PNG and JPEG decoding are enabled. The result is one PDF with enough A4 pages
 for every copy.
 
 ```sh
-cargo run -p image-layout-cli -- \
+cargo run -p image-packing --features cli -- \
   --item photo.png 12 \
   --output layout.pdf \
   --dpi 300 \
@@ -39,10 +41,10 @@ before writing the destination; an existing output file is overwritten on succes
 
 ## Library
 
-Use `crates/image-layout` as a path dependency from another project.
+Use `crates/image-packing` as a path dependency from another project.
 
 ```rust
-use image_layout::{ImageItem, LayoutOptions, compose};
+use image_packing::{ImageItem, LayoutOptions, compose};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let photo = image::open("photo.png")?;
@@ -104,8 +106,9 @@ size/orientation, or allow rotation to accommodate an oversized image.
 
 ```sh
 cargo test --workspace
+cargo test --workspace --all-features
 cargo fmt --all --check
-cargo clippy --workspace --all-targets -- -D warnings
+cargo clippy --workspace --all-targets --all-features -- -D warnings
 ```
 
 Tests cover quantities, pagination, sizing, spacing, rotation, transparency,

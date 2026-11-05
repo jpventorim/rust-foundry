@@ -2,7 +2,7 @@ use std::{ffi::OsString, path::PathBuf, process::ExitCode};
 
 use anyhow::{Context, Result, bail};
 use clap::{ArgAction, Parser, ValueEnum};
-use image_layout::{ImageItem, LayoutOptions, PageSize, compose};
+use image_packing::{ImageItem, LayoutOptions, PageSize, compose};
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
 enum Orientation {

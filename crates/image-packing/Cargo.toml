@@ -1,16 +1,28 @@
 [package]
-name = "image-layout"
+name = "image-packing"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
 description = "Pack images with independent quantities into multi-page printable PDFs"
 
+[[bin]]
+name = "image-packing"
+path = "src/main.rs"
+required-features = ["cli"]
+
+[features]
+default = []
+cli = ["dep:clap", "dep:anyhow"]
+
 [dependencies]
+clap = { version = "4", features = ["derive"], optional = true }
+anyhow = { version = "1", optional = true }
 bin-packing = { version = "0.4", default-features = false, features = ["two-d"] }
 image.workspace = true
 krilla = { version = "0.8", default-features = false, features = ["raster-images"] }
 thiserror = "2"
 
 [dev-dependencies]
+tempfile = "3"
 lopdf = "0.39"

@@ -1,3 +1,5 @@
+#![cfg(feature = "cli")]
+
 use image::{Rgb, RgbImage};
 use std::process::Command;
 
@@ -13,7 +15,7 @@ fn writes_a_multi_page_pdf_from_independent_quantities() {
     RgbImage::from_pixel(190, 277, Rgb([20, 180, 40]))
         .save(&second)
         .unwrap();
-    let result = Command::new(env!("CARGO_BIN_EXE_image-layout"))
+    let result = Command::new(env!("CARGO_BIN_EXE_image-packing"))
         .arg("--item")
         .arg(&first)
         .arg("2")
@@ -43,7 +45,7 @@ fn invalid_input_fails_without_creating_a_pdf() {
         vec!["--item", "missing.png", "1"],
         vec!["--item", "missing.png"],
     ] {
-        let result = Command::new(env!("CARGO_BIN_EXE_image-layout"))
+        let result = Command::new(env!("CARGO_BIN_EXE_image-packing"))
             .args(args)
             .arg("--output")
             .arg(&output)

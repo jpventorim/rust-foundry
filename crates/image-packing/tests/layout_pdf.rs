@@ -1,5 +1,5 @@
 use image::{DynamicImage, Rgb, RgbImage, Rgba, RgbaImage};
-use image_layout::{Error, ImageItem, LayoutOptions, PageSize, compose, layout, render_pdf};
+use image_packing::{Error, ImageItem, LayoutOptions, PageSize, compose, layout, render_pdf};
 
 #[test]
 fn independent_quantities_span_pages_without_overlap_or_missing_copies() {

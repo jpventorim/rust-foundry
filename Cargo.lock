@@ -609,26 +609,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "image-layout"
-version = "0.1.0"
-dependencies = [
- "bin-packing",
- "image",
- "krilla",
- "lopdf",
- "thiserror",
-]
-
-[[package]]
-name = "image-layout-cli"
+name = "image-packing"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "bin-packing",
  "clap",
  "image",
- "image-layout",
+ "krilla",
  "lopdf",
  "tempfile",
+ "thiserror",
 ]
 
 [[package]]
