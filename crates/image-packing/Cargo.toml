@@ -16,13 +16,13 @@ default = []
 cli = ["dep:clap", "dep:anyhow"]
 
 [dependencies]
-clap = { version = "4", features = ["derive"], optional = true }
-anyhow = { version = "1", optional = true }
-bin-packing = { version = "0.4", default-features = false, features = ["two-d"] }
+clap = { version = "4.6.7", features = ["derive"], optional = true }
+anyhow = { version = "1.0.104", optional = true }
+bin-packing = { version = "0.6.0", default-features = false, features = ["two-d"] }
 image.workspace = true
-krilla = { version = "0.8", default-features = false, features = ["raster-images"] }
-thiserror = "2"
+krilla = { version = "0.8.2", default-features = false, features = ["raster-images"] }
+thiserror = "2.0.21"
 
 [dev-dependencies]
-tempfile = "3"
-lopdf = "0.39"
+tempfile = "3.27.0"
+lopdf = "0.47.0"

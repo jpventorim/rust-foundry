@@ -8,7 +8,7 @@ The package is independent of the existing Tauri + React application.
 
 ## CLI
 
-Requires Rust 1.94 or newer.
+Requires Rust 1.99 or newer.
 
 ```sh
 cargo run -p image-packing --features cli -- \
@@ -119,6 +119,27 @@ an empty printable page return typed errors. Reduce the print width, change page
 size/orientation, or allow rotation to accommodate an oversized image.
 
 ## Development
+
+The frontend uses React, TypeScript 7, Rsbuild, and Rstest. Install Node.js
+22.12 or newer and Bun, then run:
+
+```sh
+bun install --frozen-lockfile
+bun run dev          # Frontend at http://localhost:1420
+bun run typecheck    # App and tooling configuration
+bun run test         # Rstest, single run
+bun run test:watch   # Rstest, watch mode
+bun run build       # Type checking and production output in dist/
+bun run preview     # Serve the production build
+bun run tauri dev   # Desktop app (requires Tauri platform prerequisites)
+bun run tauri build # Package the desktop app
+```
+
+Rsbuild keeps port 1420 fixed for Tauri and uses `TAURI_DEV_HOST` for mobile
+development connections and hot reload. It injects the frontend entry into
+`index.html`; static files in `public/` are copied to `dist/`.
+
+Rust checks:
 
 ```sh
 cargo test --workspace

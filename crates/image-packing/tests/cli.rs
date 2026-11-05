@@ -89,7 +89,7 @@ fn border_is_added_before_packing_and_export() {
             )
     );
     let page_id = *pdf.get_pages().values().next().unwrap();
-    let operations = lopdf::content::Content::decode(&pdf.get_page_content(page_id).unwrap())
+    let operations = lopdf::content::Content::decode(&pdf.get_page_content(page_id))
         .unwrap()
         .operations;
     let matrix = operations.iter().find(|op| op.operator == "cm").unwrap();
