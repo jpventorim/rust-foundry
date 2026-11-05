@@ -8,7 +8,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "Mutually exclusive choices with arrow-key navigation.",
+        component:
+          "A stamped gold peg seats in one iron-ringed wooden socket. Use arrow keys to move between available choices; labels also select their peg.",
       },
     },
   },
@@ -23,6 +24,7 @@ export const Default: StoryObj = {
       items={[
         { value: "private", label: "Private" },
         { value: "party", label: "Party" },
+        { value: "archived", label: "Archived (unavailable)", disabled: true },
         { value: "public", label: "Public" },
       ]}
     />
@@ -31,7 +33,7 @@ export const Default: StoryObj = {
 export const Disabled: StoryObj = {
   render: () => (
     <RadioGroup
-      label="Visibility"
+      label="Visibility (locked)"
       disabled
       defaultValue="private"
       items={[
@@ -39,5 +41,27 @@ export const Disabled: StoryObj = {
         { value: "public", label: "Public" },
       ]}
     />
+  ),
+};
+export const NarrowLabels: StoryObj = {
+  render: () => (
+    <div style={{ width: "240px", maxWidth: "100%" }}>
+      <RadioGroup
+        label="Who may read this record?"
+        defaultValue="invited"
+        items={[
+          { value: "invited", label: "Only people explicitly invited to read" },
+          {
+            value: "everyone",
+            label: "Everyone with access to this workspace",
+          },
+          {
+            value: "unavailable",
+            label: "Public access is currently unavailable",
+            disabled: true,
+          },
+        ]}
+      />
+    </div>
   ),
 };

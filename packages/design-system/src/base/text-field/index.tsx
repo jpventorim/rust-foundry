@@ -22,17 +22,19 @@ export function TextField({
       .filter(Boolean)
       .join(" ") || undefined;
   return (
-    <div className={`rf-field ${className}`}>
+    <div className={`rf-field rf-text-field ${className}`}>
       <label className="rf-label" htmlFor={id}>
         {label}
       </label>
-      <Input
-        {...props}
-        id={id}
-        className="rf-input"
-        aria-invalid={error ? true : props["aria-invalid"]}
-        aria-describedby={details}
-      />
+      <div className="rf-text-field-frame">
+        <Input
+          {...props}
+          id={id}
+          className="rf-input rf-text-field-input"
+          aria-invalid={error ? true : props["aria-invalid"]}
+          aria-describedby={details}
+        />
+      </div>
       {description && (
         <span className="rf-hint" id={`${id}-description`}>
           {description}

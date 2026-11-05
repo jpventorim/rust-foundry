@@ -22,7 +22,9 @@ export function Avatar({
       role="img"
       aria-label={name}
     >
-      {src && <BaseAvatar.Image src={src} alt="" className="rf-avatar-image" />}
+      {src ? (
+        <BaseAvatar.Image src={src} alt="" className="rf-avatar-image" />
+      ) : null}
       <BaseAvatar.Fallback aria-hidden="true" className="rf-avatar-fallback">
         {initials}
       </BaseAvatar.Fallback>

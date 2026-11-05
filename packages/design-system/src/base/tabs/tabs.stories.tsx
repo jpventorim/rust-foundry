@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Ledger dividers for related views, navigated with arrow keys.",
+          "Wooden ledger labels held in a coarse iron rail. Arrow keys move focus; Enter or Space opens a section. The active label exposes its parchment face.",
       },
     },
   },
@@ -51,5 +51,38 @@ export const SecondTab: StoryObj = {
         },
       ]}
     />
+  ),
+};
+
+export const NarrowRail: StoryObj = {
+  render: () => (
+    <div style={{ maxWidth: 300 }}>
+      <Tabs
+        label="Ledger navigation"
+        items={[
+          {
+            value: "notes",
+            label: "Collected notes",
+            content: "Your collected notes.",
+          },
+          {
+            value: "history",
+            label: "Previous entries",
+            content: "Earlier entries in this ledger.",
+          },
+          {
+            value: "references",
+            label: "References",
+            content: "Supporting references.",
+          },
+          {
+            value: "sealed",
+            label: "Sealed",
+            content: "Unavailable",
+            disabled: true,
+          },
+        ]}
+      />
+    </div>
   ),
 };

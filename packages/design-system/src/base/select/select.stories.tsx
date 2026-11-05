@@ -50,3 +50,40 @@ export const Disabled: StoryObj = {
     />
   ),
 };
+
+export const LongLabels: StoryObj = {
+  render: () => (
+    <div style={{ width: "240px", maxWidth: "100%" }}>
+      <Select
+        label="Preferred written language for correspondence"
+        defaultValue="common"
+        items={[
+          {
+            value: "common",
+            label: "Common language of the northern provinces",
+          },
+          { value: "elvish", label: "Elvish" },
+          {
+            value: "dwarvish",
+            label: "Dwarvish (unavailable)",
+            disabled: true,
+          },
+        ]}
+      />
+    </div>
+  ),
+};
+
+export const ReadOnly: StoryObj = {
+  render: () => (
+    <Select
+      label="Language (read only)"
+      defaultValue="common"
+      readOnly
+      items={[
+        { value: "common", label: "Common" },
+        { value: "elvish", label: "Elvish" },
+      ]}
+    />
+  ),
+};

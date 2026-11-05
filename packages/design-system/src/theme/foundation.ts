@@ -1,22 +1,24 @@
 import { defineGlobalStyles } from "@pandacss/dev";
+import { materialTokens } from "./materials";
 
 export const foundationStyles = defineGlobalStyles({
   ":root": {
+    ...materialTokens,
     "--rf-ink": "token(colors.ink)",
     "--rf-muted": "token(colors.muted)",
     "--rf-paper": "token(colors.paper)",
     "--rf-paper-light": "token(colors.paperLight)",
     "--rf-border": "token(colors.border)",
-    "--rf-brass": "token(colors.brass)",
+    "--rf-gold": "token(colors.gold)",
     "--rf-ruby": "token(colors.ruby)",
     "--rf-emerald": "token(colors.emerald)",
     "--rf-sapphire": "token(colors.sapphire)",
     "--rf-focus": "token(colors.focus)",
-    "--rf-radius": "8px",
+    "--rf-radius": "3px",
     "--rf-font-body": '"Segoe UI", ui-sans-serif, system-ui, sans-serif',
     "--rf-font-display": 'Georgia, "Times New Roman", serif',
     "--rf-ease": "cubic-bezier(0.2, 0.8, 0.2, 1)",
-    "--rf-shadow": "0 2px 0 #ad936b, 0 5px 12px #36250f1a",
+    "--rf-shadow": "1px 3px 0 #30271e70, 2px 5px 0 #20190e1f",
   },
   ".rf-theme": {
     color: "var(--rf-ink)",
@@ -36,30 +38,35 @@ export const foundationStyles = defineGlobalStyles({
     outline: "3px solid var(--rf-focus)",
     outlineOffset: "4px",
   },
-  '.rf-theme [data-tone="brass"]': {
-    "--rf-accent": "var(--rf-brass)",
-    "--rf-tint": "#f3dfb2",
-    "--rf-bright": "#e5ba60",
+  '.rf-theme [data-tone="gold"]': {
+    "--rf-accent": "var(--rf-gold)",
+    "--rf-tint": "#f8e9ad",
+    "--rf-bright": "#f3d17a",
+    "--rf-on-accent": "#30220f",
   },
   '.rf-theme [data-tone="ruby"]': {
+    "--rf-on-accent": "#fff9ef",
     "--rf-accent": "var(--rf-ruby)",
     "--rf-tint": "#f8dce0",
     "--rf-bright": "#de6170",
   },
   '.rf-theme [data-tone="emerald"]': {
+    "--rf-on-accent": "#fff9ef",
     "--rf-accent": "var(--rf-emerald)",
     "--rf-tint": "#d6e9d5",
     "--rf-bright": "#58b882",
   },
   '.rf-theme [data-tone="sapphire"]': {
+    "--rf-on-accent": "#fff9ef",
     "--rf-accent": "var(--rf-sapphire)",
     "--rf-tint": "#dce8f5",
     "--rf-bright": "#67a9e0",
   },
   '.rf-theme [data-tone="neutral"]': {
-    "--rf-accent": "#5d5042",
-    "--rf-tint": "#e9dfcd",
-    "--rf-bright": "#b8a58b",
+    "--rf-accent": "#3b4548",
+    "--rf-tint": "#e1e4df",
+    "--rf-bright": "#a7b0ae",
+    "--rf-on-accent": "#fff9ef",
   },
   ".rf-stack": {
     display: "flex",
@@ -119,11 +126,11 @@ export const foundationStyles = defineGlobalStyles({
     maxWidth: "calc(100vw - 24px)",
   },
   ".rf-popup": {
-    background: "var(--rf-paper-light)",
+    background: "var(--rf-paper-texture)",
     color: "var(--rf-ink)",
-    border: "1px solid #ac9066",
-    borderRadius: "7px",
-    boxShadow: "inset 0 0 0 3px #e4cfa650, 0 12px 32px #231b1433",
+    border: "2px solid #6a5036",
+    borderRadius: "2px 4px 3px 2px",
+    boxShadow: "2px 4px 0 #20180e80, 4px 8px 14px #231b1426",
     transformOrigin: "var(--transform-origin)",
     transition: "opacity 160ms, transform 160ms var(--rf-ease)",
   },

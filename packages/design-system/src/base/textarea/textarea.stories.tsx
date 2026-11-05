@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A plain multiline composition input with the same field language.",
+          "A vertically resizable writing sheet set into a timber tablet. Persistent labels and linked help or errors accompany the native textarea.",
       },
     },
   },
@@ -21,7 +21,7 @@ export const Default: StoryObj = {
     <Textarea
       label="Notes"
       placeholder="Put quill to parchment…"
-      description="A few words are enough."
+      description="Write across several lines. Drag the lower corner to make more room."
     />
   ),
 };
@@ -38,8 +38,31 @@ export const Disabled: StoryObj = {
   render: () => (
     <Textarea
       label="Notes"
-      defaultValue="These notes are read-only."
+      defaultValue="These notes are unavailable for editing."
       disabled
     />
+  ),
+};
+
+export const ReadOnly: StoryObj = {
+  render: () => (
+    <Textarea
+      label="Notes"
+      defaultValue="These notes can be selected and copied."
+      description="This sheet is read-only."
+      readOnly
+    />
+  ),
+};
+
+export const Narrow: StoryObj = {
+  render: () => (
+    <div style={{ width: "100%", maxWidth: 280 }}>
+      <Textarea
+        label="Notes on a narrow sheet"
+        description="The writing surface fits its available space."
+        defaultValue="A short first line.\nA second thought."
+      />
+    </div>
   ),
 };

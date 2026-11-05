@@ -125,7 +125,7 @@ size/orientation, or allow rotation to accommodate an oversized image.
 Storybook stories, and Rstest browser tests. Higher-level Library components will
 be added only after their requirements are defined.
 
-The [design direction](packages/design-system/design.md) is a living guide to
+The [design direction](packages/design-system/DESIGN.md) is a living guide to
 materials, palette, typography, motion, and accessibility. The component catalog
 has **Base** and **Design system / All components** sections.
 

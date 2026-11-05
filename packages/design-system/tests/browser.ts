@@ -1,4 +1,4 @@
-import { createReadStream, existsSync, readFileSync } from "node:fs";
+import { createReadStream, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { createServer, type Server } from "node:http";
 import { extname, resolve, sep } from "node:path";
 import { afterAll, beforeAll, expect, test } from "@rstest/core";
@@ -121,6 +121,13 @@ export function componentTests(
       await check(page);
       expect(errors).toEqual([]);
     } finally {
+      if (process.env.RF_CAPTURE_STORIES) {
+        mkdirSync("test-results/stories", { recursive: true });
+        await page.screenshot({
+          path: `test-results/stories/${id}.png`,
+          fullPage: true,
+        });
+      }
       await context.close();
     }
   }

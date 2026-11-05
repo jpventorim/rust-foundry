@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Expandable rules with animated height, readable headings, and button semantics.",
+          "Hinged timber rails with forged iron straps open onto bound paper. Includes keyboard navigation, configurable heading levels, and reduced-motion states.",
       },
     },
   },
@@ -51,5 +51,42 @@ export const Expanded: StoryObj = {
         },
       ]}
     />
+  ),
+};
+
+export const BoundFolio: StoryObj = {
+  render: () => (
+    <div style={{ maxWidth: 360 }}>
+      <h2 className="rf-title">A bound folio</h2>
+      <Accordion
+        headingLevel={3}
+        multiple
+        defaultValue={["binding", "paper"]}
+        items={[
+          {
+            value: "binding",
+            title:
+              "A long section heading follows the width of its timber rail",
+            content: (
+              <p>
+                The paper sits beneath its wooden cover, with room for readable
+                notes and a <a href="#paper">linked reference</a>.
+              </p>
+            ),
+          },
+          {
+            value: "paper",
+            title: "A second opened sheet",
+            content: "Several sections can remain open for comparison.",
+          },
+          {
+            value: "sealed",
+            title: "Sealed section — unavailable",
+            content: "This section is currently unavailable.",
+            disabled: true,
+          },
+        ]}
+      />
+    </div>
   ),
 };

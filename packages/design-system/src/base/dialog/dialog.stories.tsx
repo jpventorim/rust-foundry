@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A modal parchment with a title, description, focus trap, Escape dismissal, and focus restoration.",
+          "An opened wood-backed folio with a fibrous sheet, iron binding, focus trap, Escape dismissal, and focus restoration.",
       },
     },
   },
@@ -27,6 +27,37 @@ export const Default: StoryObj = {
     >
       <TextField label="Note title" placeholder="A new chapter" />
       <p className="rf-hint">Press Escape or the close button to return.</p>
+    </Dialog>
+  ),
+};
+
+export const LongContent: StoryObj = {
+  render: () => (
+    <Dialog
+      trigger={<Button>Open long dialog</Button>}
+      title="A folio with room for a longer heading"
+      description="The sheet scrolls within its frame so every field remains reachable on a narrow screen."
+    >
+      {[
+        "First",
+        "Second",
+        "Third",
+        "Fourth",
+        "Fifth",
+        "Sixth",
+        "Seventh",
+        "Eighth",
+      ].map((page) => (
+        <p key={page}>
+          <strong>{page} page. </strong>
+          Each page has a little more to say. Keep reading to reach the writing
+          field, or use the close clasp or Escape to return to the table.
+        </p>
+      ))}
+      <TextField
+        label="Final note"
+        placeholder="Write at the foot of the sheet"
+      />
     </Dialog>
   ),
 };

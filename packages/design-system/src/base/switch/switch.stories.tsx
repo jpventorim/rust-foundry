@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A sliding brass latch for an immediately applied on/off setting.",
+          "A sliding iron bolt on a wood mounting block for an immediately applied on/off setting. The bolt position and underlined engraving show its state.",
       },
     },
   },
@@ -24,4 +24,7 @@ export const On: StoryObj = {
 };
 export const Disabled: StoryObj = {
   render: () => <Switch label="Enable ambient sound" disabled />,
+};
+export const DisabledOn: StoryObj = {
+  render: () => <Switch label="Enable ambient sound" disabled defaultChecked />,
 };

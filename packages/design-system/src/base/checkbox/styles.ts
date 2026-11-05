@@ -1,52 +1,159 @@
 import { defineGlobalStyles } from "@pandacss/dev";
 
 export const checkboxStyles = defineGlobalStyles({
-  ".rf-choice": {
+  ".rf-checkbox-choice": {
     display: "inline-flex",
     alignItems: "center",
-    gap: "10px",
-    cursor: "pointer",
+    gap: "6px",
     minHeight: "44px",
-    fontSize: "0.87rem",
+    maxWidth: "100%",
     width: "fit-content",
+    fontSize: "0.9375rem",
+    lineHeight: "1.6",
+    cursor: "pointer",
   },
-  ".rf-choice:has([data-disabled])": {
+  ".rf-checkbox-choice > span": {
+    minWidth: "0",
+    overflowWrap: "anywhere",
+  },
+  ".rf-checkbox-choice:has(.rf-checkbox[data-disabled])": {
     cursor: "not-allowed",
-    color: "#786b57",
   },
-  ".rf-checkbox, .rf-radio": {
+  ".rf-checkbox": {
+    position: "relative",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: "0 0 44px",
+    width: "44px",
+    height: "44px",
+    padding: "0",
+    border: "0",
+    borderRadius: "2px",
+    background: "transparent",
+    cursor: "inherit",
+    isolation: "isolate",
+    WebkitTapHighlightColor: "transparent",
+  },
+  ".rf-checkbox::before": {
+    content: '""',
+    position: "absolute",
+    width: "30px",
+    height: "30px",
+    boxSizing: "border-box",
+    border: "3px solid #30383a",
+    borderRadius: "2px",
+    background: "var(--rf-wood-texture)",
+    boxShadow:
+      "inset 0 1px 0 #ab8260, inset 0 -2px 0 #2c1c14, 0 2px 0 #201b17, 0 3px 2px #201b1738",
+    pointerEvents: "none",
+  },
+  ".rf-checkbox:hover:not([data-disabled])::before": {
+    borderColor: "#697274",
+  },
+  ".rf-checkbox:focus-visible": {
+    outline: "3px solid var(--rf-focus)",
+    outlineOffset: "2px",
+  },
+  ".rf-checkbox:active:not([data-disabled]) .rf-checkbox-indicator": {
+    transform: "translateY(1px)",
+    boxShadow: "inset 0 2px 2px #6a451e80, 0 1px 0 #fff0b866",
+  },
+  ".rf-checkbox[data-disabled]::before": {
+    borderColor: "#62635c",
+    boxShadow: "inset 0 1px 0 #ab8260, 0 1px 0 #201b17",
+  },
+  ".rf-checkbox[data-disabled] .rf-checkbox-indicator": {
+    background: "var(--rf-paper-texture)",
+    color: "var(--rf-ink)",
+    borderColor: "#81715b",
+    boxShadow: "inset 0 1px 0 #fff8e8, inset 0 -1px 0 #b9a27c",
+  },
+  ".rf-checkbox::after": {
+    content: '""',
+    position: "absolute",
+    width: "20px",
+    height: "20px",
+    border: "1px solid #191f21",
+    borderRadius: "1px",
+    background: "var(--rf-iron-texture)",
+    boxShadow: "inset 0 2px 3px #0009, 0 1px 0 #ab826080",
+    pointerEvents: "none",
+  },
+  ".rf-checkbox-indicator": {
+    "--rf-on-accent": "#30220f",
+    zIndex: "1",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "23px",
-    height: "23px",
-    flex: "0 0 auto",
-    border: "1px solid #9c8055",
-    borderRadius: "4px",
-    background: "var(--rf-paper-light)",
-    boxShadow: "inset 0 2px 3px #33230e1a, 0 1px 0 #fff",
-    transition: "background 160ms, transform 160ms",
-  },
-  ".rf-checkbox[data-checked], .rf-radio[data-checked]": {
-    borderColor: "var(--rf-emerald)",
-    background: "var(--rf-emerald)",
-    color: "#fff",
-  },
-  ".rf-checkbox-indicator": {
-    display: "flex",
-    animation: "rf-stamp 200ms var(--rf-ease)",
-  },
-  ".rf-checkbox[data-indeterminate]": {
-    background: "var(--rf-emerald)",
-    color: "white",
+    width: "20px",
+    height: "20px",
+    boxSizing: "border-box",
+    border: "1px solid #8a6326",
+    borderRadius: "1px",
+    background: "var(--rf-gold-texture)",
+    color: "var(--rf-on-accent)",
+    boxShadow: "inset 0 1px 0 #fff0b8, inset 0 -2px 0 #a27732, 0 1px 2px #0008",
+    transition:
+      "transform 160ms var(--rf-ease), box-shadow 160ms var(--rf-ease)",
+    pointerEvents: "none",
   },
   ".rf-checkbox[data-indeterminate] .rf-checkbox-indicator svg": {
     display: "none",
   },
+  ".rf-checkbox-indicator svg": {
+    flexShrink: "0",
+    filter: "drop-shadow(0 1px 0 #fff0b8)",
+  },
   ".rf-checkbox[data-indeterminate] .rf-checkbox-indicator::after": {
     content: '""',
-    height: "2px",
     width: "11px",
+    height: "3px",
     background: "currentColor",
+    boxShadow: "0 1px 0 #fff0b8",
+  },
+  "@media (prefers-reduced-motion: reduce)": {
+    ".rf-checkbox-indicator": {
+      transition: "none",
+    },
+    ".rf-checkbox:active:not([data-disabled]) .rf-checkbox-indicator": {
+      transform: "none",
+    },
+  },
+  "@media (forced-colors: active)": {
+    ".rf-checkbox::before, .rf-checkbox::after": {
+      background: "Canvas",
+      borderColor: "ButtonText",
+      boxShadow: "none",
+    },
+    ".rf-checkbox-indicator": {
+      background: "Highlight",
+      color: "HighlightText",
+      borderColor: "Highlight",
+      boxShadow: "none",
+      forcedColorAdjust: "none",
+    },
+    ".rf-checkbox:focus-visible": {
+      outlineColor: "Highlight",
+    },
+    ".rf-checkbox:hover:not([data-disabled])::before": {
+      borderColor: "ButtonText",
+    },
+    ".rf-checkbox-indicator svg": {
+      filter: "none",
+    },
+    ".rf-checkbox[data-disabled]::before": {
+      borderColor: "GrayText",
+      boxShadow: "none",
+    },
+    ".rf-checkbox[data-disabled] .rf-checkbox-indicator": {
+      background: "Canvas",
+      color: "GrayText",
+      borderColor: "GrayText",
+      boxShadow: "none",
+    },
+    ".rf-checkbox[data-indeterminate] .rf-checkbox-indicator::after": {
+      boxShadow: "none",
+    },
   },
 });

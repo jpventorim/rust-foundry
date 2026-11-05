@@ -30,8 +30,10 @@ export function Accordion({
             className="rf-accordion-header"
           >
             <BaseAccordion.Trigger className="rf-accordion-trigger">
-              {item.title}
-              <ChevronDown size={17} aria-hidden="true" />
+              <span>{item.title}</span>
+              <span className="rf-accordion-keeper" aria-hidden="true">
+                <ChevronDown size={17} />
+              </span>
             </BaseAccordion.Trigger>
           </BaseAccordion.Header>
           <BaseAccordion.Panel className="rf-accordion-panel">

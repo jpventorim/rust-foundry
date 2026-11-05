@@ -12,13 +12,26 @@ export function Progress({
 }) {
   return (
     <BaseProgress.Root {...props} className="rf-progress" data-tone={tone}>
-      <div className="rf-spread">
+      <div className="rf-progress-heading">
         <BaseProgress.Label className="rf-label">{label}</BaseProgress.Label>
-        <BaseProgress.Value className="rf-progress-value" />
+        <BaseProgress.Value className="rf-progress-value">
+          {(formattedValue) => (
+            <>
+              <span className="rf-progress-complete">Complete · </span>
+              <span className="rf-progress-value-text">
+                {formattedValue === "indeterminate"
+                  ? "Working…"
+                  : formattedValue}
+              </span>
+            </>
+          )}
+        </BaseProgress.Value>
       </div>
-      <BaseProgress.Track className="rf-progress-track">
-        <BaseProgress.Indicator className="rf-progress-indicator" />
-      </BaseProgress.Track>
+      <div className="rf-progress-channel">
+        <BaseProgress.Track className="rf-progress-track">
+          <BaseProgress.Indicator className="rf-progress-indicator" />
+        </BaseProgress.Track>
+      </div>
     </BaseProgress.Root>
   );
 }

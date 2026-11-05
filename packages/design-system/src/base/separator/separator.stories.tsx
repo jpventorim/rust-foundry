@@ -8,7 +8,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "A subtle engraved rule between related regions.",
+        component:
+          "A narrow forged iron rule with squared end keepers between related regions.",
       },
     },
   },
@@ -30,6 +31,16 @@ export const Vertical: StoryObj = {
       <span>Previous</span>
       <Separator orientation="vertical" />
       <span>Next</span>
+    </div>
+  ),
+};
+
+export const Narrow: StoryObj = {
+  render: () => (
+    <div style={{ width: "180px", maxWidth: "100%" }}>
+      <p>Before the seam</p>
+      <Separator />
+      <p>After the seam</p>
     </div>
   ),
 };

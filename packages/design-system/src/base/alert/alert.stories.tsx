@@ -37,3 +37,36 @@ export const Information: StoryObj = {
     </Alert>
   ),
 };
+
+export const NoticeTones: StoryObj = {
+  render: () => (
+    <div className="rf-stack">
+      <Alert title="Changes saved" tone="emerald">
+        Your notes are safe.
+      </Alert>
+      <Alert title="Unable to save" tone="ruby">
+        Check your connection and try again.
+      </Alert>
+      <Alert title="A useful reminder" tone="sapphire">
+        You can navigate every control with a keyboard.
+      </Alert>
+      <Alert title="Please review" tone="gold">
+        Review your changes before continuing.
+      </Alert>
+      <Alert title="No changes" tone="neutral">
+        There are no new updates to display.
+      </Alert>
+    </div>
+  ),
+};
+
+export const NarrowNotice: StoryObj = {
+  render: () => (
+    <div style={{ width: "280px", maxWidth: "100%" }}>
+      <Alert title="Your changes need another look" tone="ruby">
+        A longer message remains readable when the notice shares a narrow column
+        with other content.
+      </Alert>
+    </div>
+  ),
+};

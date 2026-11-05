@@ -3,10 +3,12 @@ import { Slider as BaseSlider } from "@base-ui/react/slider";
 export function Slider({
   label,
   ...props
-}: Omit<BaseSlider.Root.Props, "className" | "children"> & { label: string }) {
+}: Omit<BaseSlider.Root.Props<number>, "className" | "children"> & {
+  label: string;
+}) {
   return (
     <BaseSlider.Root defaultValue={50} {...props} className="rf-slider">
-      <div className="rf-spread">
+      <div className="rf-slider-heading">
         <BaseSlider.Label className="rf-label">{label}</BaseSlider.Label>
         <BaseSlider.Value className="rf-slider-value" />
       </div>

@@ -29,5 +29,30 @@ componentTests("base-dialog", {
       .getByRole("button", { name: "Open dialog", exact: true })
       .click();
     await page.getByRole("dialog").waitFor();
+    expect(
+      await page.getByRole("dialog").getAttribute("aria-labelledby"),
+    ).toBeTruthy();
+    expect(
+      await page.getByRole("dialog").getAttribute("aria-describedby"),
+    ).toBeTruthy();
+  },
+  "close clasp restores focus to the trigger": async (page) => {
+    const trigger = page.getByRole("button", {
+      name: "Open dialog",
+      exact: true,
+    });
+    await trigger.click();
+    const close = page.getByRole("button", {
+      name: "Close dialog",
+      exact: true,
+    });
+    const bounds = await close.boundingBox();
+    expect(bounds?.width).toBeGreaterThanOrEqual(44);
+    expect(bounds?.height).toBeGreaterThanOrEqual(44);
+    await close.click();
+    await page.getByRole("dialog").waitFor({ state: "hidden" });
+    expect(await trigger.evaluate((el) => el === document.activeElement)).toBe(
+      true,
+    );
   },
 });

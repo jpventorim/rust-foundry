@@ -1,7 +1,6 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { X } from "lucide-react";
 import type { ComponentProps, ReactElement, ReactNode } from "react";
-import { Button } from "../button";
 
 export function Popover({
   trigger,
@@ -20,26 +19,32 @@ export function Popover({
       <BasePopover.Trigger render={trigger} />
       <BasePopover.Portal>
         <BasePopover.Positioner
-          className="rf-theme rf-positioner"
-          sideOffset={10}
+          className="rf-theme rf-popover-positioner"
+          sideOffset={12}
+          collisionPadding={16}
         >
-          <BasePopover.Popup className="rf-popup rf-popover">
-            <div className="rf-spread">
-              <BasePopover.Title className="rf-title">
-                {title}
-              </BasePopover.Title>
-              <BasePopover.Close
-                render={
-                  <Button variant="ghost" size="sm" aria-label="Close popover">
-                    <X size={16} aria-hidden="true" />
-                  </Button>
-                }
-              />
+          <BasePopover.Popup className="rf-popover">
+            <BasePopover.Arrow
+              className="rf-popover-attachment"
+              aria-hidden="true"
+            />
+            <div className="rf-popover-sheet">
+              <div className="rf-popover-header">
+                <BasePopover.Title className="rf-popover-title">
+                  {title}
+                </BasePopover.Title>
+                <BasePopover.Close
+                  className="rf-popover-close"
+                  aria-label="Close popover"
+                >
+                  <X size={18} aria-hidden="true" />
+                </BasePopover.Close>
+              </div>
+              <BasePopover.Description className="rf-popover-description">
+                {description}
+              </BasePopover.Description>
+              {children}
             </div>
-            <BasePopover.Description className="rf-muted">
-              {description}
-            </BasePopover.Description>
-            {children}
           </BasePopover.Popup>
         </BasePopover.Positioner>
       </BasePopover.Portal>

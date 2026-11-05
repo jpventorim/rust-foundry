@@ -12,5 +12,14 @@ componentTests("base-select", {
     expect(await trigger.textContent()).toContain("Elvish");
     await trigger.click();
     await page.getByRole("listbox").waitFor();
+    expect(
+      await page.getByRole("region", { name: "Language options" }).isVisible(),
+    ).toBe(true);
+    await page.keyboard.press("Escape");
+    expect(
+      await trigger.evaluate((element) => element === document.activeElement),
+    ).toBe(true);
+    await page.keyboard.press("ArrowDown");
+    await page.getByRole("listbox").waitFor();
   },
 });

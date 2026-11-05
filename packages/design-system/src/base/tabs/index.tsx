@@ -20,7 +20,11 @@ export function Tabs({
       {...props}
       className="rf-tabs"
     >
-      <BaseTabs.List className="rf-tabs-list" aria-label={label}>
+      <BaseTabs.List
+        className="rf-tabs-list"
+        aria-label={label}
+        activateOnFocus={false}
+      >
         {items.map((item) => (
           <BaseTabs.Tab
             className="rf-tab"

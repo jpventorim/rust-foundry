@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Raised enamel actions with a brass edge. Text always names the action.",
+          "Wood-grained painted action plates press into a firm iron backing. Ruby is the primary action; gold plates carry dark lettering.",
       },
     },
   },
@@ -22,20 +22,43 @@ export const Default: StoryObj = {
 export const Variants: StoryObj = {
   render: () => (
     <div className="rf-stack">
+      {(["solid", "outline", "ghost"] as const).map((variant) => (
+        <div className="rf-row" key={variant}>
+          {(["ruby", "emerald", "sapphire", "gold", "neutral"] as const).map(
+            (tone) => (
+              <Button key={tone} tone={tone} variant={variant}>
+                {tone} {variant}
+              </Button>
+            ),
+          )}
+        </div>
+      ))}
       <div className="rf-row">
-        <Button>Brass</Button>
-        <Button tone="ruby">Ruby</Button>
-        <Button tone="emerald">Emerald</Button>
-        <Button tone="sapphire">Sapphire</Button>
-      </div>
-      <div className="rf-row">
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button size="sm">Compact</Button>
+        <Button size="sm">Compact action</Button>
+        <Button tone="gold" size="sm">
+          Gold compact action
+        </Button>
       </div>
     </div>
   ),
 };
 export const Disabled: StoryObj = {
-  render: () => <Button disabled>Unavailable</Button>,
+  render: () => (
+    <div className="rf-row">
+      <Button disabled>Unavailable</Button>
+      <Button variant="outline" disabled>
+        Outline unavailable
+      </Button>
+      <Button variant="ghost" disabled>
+        Ghost unavailable
+      </Button>
+    </div>
+  ),
+};
+export const Narrow: StoryObj = {
+  render: () => (
+    <div style={{ width: "190px", maxWidth: "100%" }}>
+      <Button>Confirm and continue to the next chapter</Button>
+    </div>
+  ),
 };

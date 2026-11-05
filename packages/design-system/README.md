@@ -1,8 +1,11 @@
 # @rust-foundry/ui
 
-An internal React design-system package. Start with [design.md](./design.md) for
+An internal React design-system package. Start with [DESIGN.md](./DESIGN.md) for
 the living visual direction and open questions. This iteration contains 19 base
 components; higher-level Library components are intentionally deferred.
+The [second-pass review](./design-review.md) records the three rounds per component
+and integrated validation. The current palette uses `gold` in place of the initial
+`brass` tone, and primary buttons default to `ruby`.
 
 From the repository root:
 

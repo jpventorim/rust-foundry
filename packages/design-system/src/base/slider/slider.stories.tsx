@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A single brass thumb with a visible label and a numeric readout.",
+          "A single iron carriage with a ridged grip travels a graduated timber rail. The paper readout displays its value; arrow keys adjust it and Home/End reach the limits.",
       },
     },
   },
@@ -25,5 +25,11 @@ export const Disabled: StoryObj = {
 export const Stepped: StoryObj = {
   render: () => (
     <Slider label="Grid size" defaultValue={5} min={1} max={10} step={1} />
+  ),
+};
+
+export const Vertical: StoryObj = {
+  render: () => (
+    <Slider label="Ambient volume" defaultValue={40} orientation="vertical" />
   ),
 };

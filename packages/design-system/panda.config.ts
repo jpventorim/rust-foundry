@@ -16,7 +16,7 @@ export default defineConfig({
           paper: { value: "#f3e8cf" },
           paperLight: { value: "#fff8e8" },
           border: { value: "#b9a27c" },
-          brass: { value: "#775014" },
+          gold: { value: "#e3b958" },
           ruby: { value: "#912e38" },
           emerald: { value: "#236044" },
           sapphire: { value: "#2a537e" },

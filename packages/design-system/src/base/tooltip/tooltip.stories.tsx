@@ -24,3 +24,11 @@ export const Default: StoryObj = {
     </Tooltip>
   ),
 };
+
+export const WrappedLabel: StoryObj = {
+  render: () => (
+    <Tooltip content="Save a local copy of this document. Your changes remain available when you return to the writing table.">
+      <Button variant="outline">Save local copy</Button>
+    </Tooltip>
+  ),
+};

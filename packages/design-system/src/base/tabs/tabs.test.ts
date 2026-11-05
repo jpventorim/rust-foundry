@@ -5,6 +5,16 @@ componentTests("base-tabs", {
   "moves focus with arrow keys and activates with Enter": async (page) => {
     await page.getByRole("tab", { name: "Notes", exact: true }).focus();
     await page.keyboard.press("ArrowRight");
+    expect(
+      await page
+        .getByRole("tab", { name: "Notes", exact: true })
+        .getAttribute("aria-selected"),
+    ).toBe("true");
+    expect(
+      await page
+        .getByRole("tab", { name: "History", exact: true })
+        .evaluate((tab) => tab === document.activeElement),
+    ).toBe(true);
     await page.keyboard.press("Enter");
     expect(
       await page

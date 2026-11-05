@@ -13,8 +13,8 @@ export function RadioGroup({
 }) {
   const labelId = useId();
   return (
-    <div className="rf-field">
-      <span className="rf-label" id={labelId}>
+    <div className="rf-radio-field">
+      <span className="rf-radio-label" id={labelId}>
         {label}
       </span>
       <BaseRadioGroup
@@ -25,7 +25,7 @@ export function RadioGroup({
         {items.map((item, index) => (
           <label
             key={item.value}
-            className="rf-choice"
+            className="rf-radio-choice"
             htmlFor={`${labelId}-${index}`}
           >
             <Radio.Root
@@ -34,7 +34,10 @@ export function RadioGroup({
               disabled={item.disabled}
               className="rf-radio"
             >
-              <Radio.Indicator className="rf-radio-indicator" />
+              <Radio.Indicator
+                className="rf-radio-indicator"
+                aria-hidden="true"
+              />
             </Radio.Root>
             <span>{item.label}</span>
           </label>

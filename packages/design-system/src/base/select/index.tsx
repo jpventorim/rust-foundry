@@ -12,12 +12,15 @@ export function Select({
   "items" | "children" | "multiple"
 > & { label: string; items: readonly Choice[]; placeholder?: string }) {
   return (
-    <div className="rf-field">
+    <div className="rf-field rf-select-field">
       <BaseSelect.Root {...props} items={items}>
         <BaseSelect.Label className="rf-label">{label}</BaseSelect.Label>
         <BaseSelect.Trigger className="rf-select-trigger">
-          <BaseSelect.Value placeholder={placeholder} />
-          <BaseSelect.Icon>
+          <BaseSelect.Value
+            className="rf-select-value"
+            placeholder={placeholder}
+          />
+          <BaseSelect.Icon className="rf-select-opener" aria-hidden="true">
             <ChevronDown size={16} aria-hidden="true" />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
@@ -25,10 +28,11 @@ export function Select({
           <BaseSelect.Positioner
             role="region"
             aria-label={`${label} options`}
-            className="rf-theme rf-positioner"
+            className="rf-theme rf-positioner rf-select-positioner"
             sideOffset={8}
+            alignItemWithTrigger={false}
           >
-            <BaseSelect.Popup className="rf-popup rf-select-popup">
+            <BaseSelect.Popup className="rf-select-popup">
               <BaseSelect.List className="rf-select-list">
                 {items.map((item) => (
                   <BaseSelect.Item
@@ -37,8 +41,13 @@ export function Select({
                     disabled={item.disabled}
                     className="rf-select-item"
                   >
-                    <BaseSelect.ItemText>{item.label}</BaseSelect.ItemText>
-                    <BaseSelect.ItemIndicator>
+                    <BaseSelect.ItemText className="rf-select-item-text">
+                      {item.label}
+                    </BaseSelect.ItemText>
+                    <BaseSelect.ItemIndicator
+                      className="rf-select-check"
+                      aria-hidden="true"
+                    >
                       <Check size={16} aria-hidden="true" />
                     </BaseSelect.ItemIndicator>
                   </BaseSelect.Item>

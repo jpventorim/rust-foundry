@@ -1,4 +1,4 @@
-import { BookOpen, Feather, ShieldCheck } from "lucide-react";
+import { Feather } from "lucide-react";
 import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "storybook-react-rsbuild";
 import { Accordion } from "../src/base/accordion";
@@ -22,12 +22,10 @@ import { Textarea } from "../src/base/textarea";
 import { Tooltip } from "../src/base/tooltip";
 
 function Section({
-  number,
   title,
   description,
   children,
 }: {
-  number: string;
   title: string;
   description: string;
   children: ReactNode;
@@ -35,7 +33,6 @@ function Section({
   return (
     <section className="rf-codex-section">
       <div className="rf-codex-heading">
-        <span aria-hidden="true">{number}.</span>
         <div>
           <h2>{title}</h2>
           <p>{description}</p>
@@ -56,7 +53,9 @@ function Specimen({ name, children }: { name: string; children: ReactNode }) {
 }
 
 const swatches = [
-  { name: "Old brass", color: "#775014" },
+  { name: "Candle gold", color: "#e3b958", texture: "var(--rf-gold-texture)" },
+  { name: "Sawn oak", color: "#593b2b", texture: "var(--rf-wood-texture)" },
+  { name: "Coarse iron", color: "#3b4548", texture: "var(--rf-iron-texture)" },
   { name: "Ruby wax", color: "#912e38" },
   { name: "Forest enamel", color: "#236044" },
   { name: "Sapphire ink", color: "#2a537e" },
@@ -67,30 +66,26 @@ function AllComponents() {
   return (
     <div className="rf-codex">
       <header className="rf-codex-header">
-        <div className="rf-row">
-          <BookOpen size={20} aria-hidden="true" />
-          <span className="rf-eyebrow">Foundry / The component codex</span>
-        </div>
-        <h1>Made for the table.</h1>
+        <h1>Design system</h1>
         <p>
-          Honest materials. A little magic. A tactile collection of building
-          blocks for the stories we tell together.
+          Base components inspired by medieval tabletop materials: wood grain,
+          coarse iron, leather, and fibrous paper.
         </p>
-        <div className="rf-codex-meta">
-          <span>Volume I · Base components</span>
-          <span>19 building blocks</span>
-          <span>First edition · Work in progress</span>
-        </div>
       </header>
       <Section
-        number="I"
-        title="The material palette"
-        description="Parchment, patinated brass, and richly colored enamel."
+        title="Materials and colors"
+        description="Sawn timber, fibrous paper, coarse iron, and vivid paint."
       >
         <div className="rf-swatch-grid">
           {swatches.map((swatch) => (
             <div key={swatch.name}>
-              <div className="rf-swatch" style={{ background: swatch.color }} />
+              <div
+                className="rf-swatch"
+                style={{
+                  background:
+                    "texture" in swatch ? swatch.texture : swatch.color,
+                }}
+              />
               <span className="rf-swatch-name">{swatch.name}</span>
               <span className="rf-swatch-code">{swatch.color}</span>
             </div>
@@ -98,16 +93,15 @@ function AllComponents() {
         </div>
       </Section>
       <Section
-        number="II"
-        title="Small but mighty"
-        description="Actions, identity, and a few useful marks in the margin."
+        title="Actions and identity"
+        description="Buttons, status labels, and avatars."
       >
         <div className="rf-demo-grid">
           <Specimen name="Button">
             <div className="rf-row">
               <Button>
                 <Feather size={16} aria-hidden="true" />
-                Begin a story
+                Save note
               </Button>
               <Button variant="outline">Secondary</Button>
             </div>
@@ -127,16 +121,15 @@ function AllComponents() {
         </div>
       </Section>
       <Section
-        number="III"
-        title="Put quill to parchment"
-        description="Readable labels, recessed fields, and reassuringly solid controls."
+        title="Form controls"
+        description="Text entry, selection, range, and progress controls."
       >
         <div className="rf-demo-grid">
           <Specimen name="Text field">
             <TextField
               label="Name"
-              placeholder="What shall we call you?"
-              description="A name to remember."
+              placeholder="Enter a name"
+              description="Shown next to your notes."
             />
           </Specimen>
           <Specimen name="Select">
@@ -151,10 +144,7 @@ function AllComponents() {
             />
           </Specimen>
           <Specimen name="Textarea">
-            <Textarea
-              label="Notes"
-              placeholder="Every good tale starts somewhere…"
-            />
+            <Textarea label="Notes" placeholder="Enter notes" />
           </Specimen>
           <Specimen name="Checkbox">
             <Checkbox label="Keep these notes private" defaultChecked />
@@ -181,15 +171,14 @@ function AllComponents() {
         </div>
       </Section>
       <Section
-        number="IV"
-        title="A place for everything"
-        description="Surfaces and navigation that keep the page calm and organized."
+        title="Surfaces and navigation"
+        description="Panels, alerts, separators, tabs, and accordions."
       >
         <div className="rf-demo-grid">
           <Specimen name="Panel">
             <Panel>
-              <h4 className="rf-title">A quiet surface</h4>
-              <p className="rf-muted">Compose something useful here.</p>
+              <h4 className="rf-title">Panel</h4>
+              <p className="rf-muted">A framed surface for related content.</p>
             </Panel>
           </Specimen>
           <Specimen name="Alert">
@@ -198,7 +187,7 @@ function AllComponents() {
             </Alert>
           </Specimen>
           <Specimen name="Separator">
-            <p className="rf-muted">A new chapter</p>
+            <p className="rf-muted">Note title</p>
             <Separator />
             <p className="rf-muted">A little breathing room.</p>
           </Specimen>
@@ -225,39 +214,35 @@ function AllComponents() {
               items={[
                 {
                   value: "details",
-                  title: "A little more detail",
-                  content: "Open when needed. Quiet when not.",
+                  title: "Section details",
+                  content: "Content for the selected section.",
                 },
                 {
                   value: "more",
-                  title: "One more thing",
-                  content: "Every control has a keyboard path.",
+                  title: "Additional details",
+                  content: "Additional section content.",
                 },
               ]}
             />
           </Specimen>
         </div>
       </Section>
-      <Section
-        number="V"
-        title="Just a little more"
-        description="Contextual layers, with focus managed and a clear way back."
-      >
+      <Section title="Overlays" description="Dialogs, popovers, and tooltips.">
         <div className="rf-demo-grid">
           <Specimen name="Dialog">
             <Dialog
               trigger={<Button>Open a dialog</Button>}
-              title="A moment of pause"
-              description="A sheet of parchment above the table."
+              title="Edit note"
+              description="Enter a title for this note."
             >
-              <TextField label="Note title" placeholder="A new chapter" />
+              <TextField label="Note title" placeholder="Note title" />
             </Dialog>
           </Specimen>
           <Specimen name="Popover">
             <Popover
               trigger={<Button variant="outline">Read the details</Button>}
-              title="Close at hand"
-              description="Useful context belongs beside the thing it explains."
+              title="Details"
+              description="Additional information about the selected item."
             />
           </Specimen>
           <Specimen name="Tooltip">
@@ -267,10 +252,6 @@ function AllComponents() {
           </Specimen>
         </div>
       </Section>
-      <footer className="rf-codex-footer">
-        <ShieldCheck size={18} aria-hidden="true" />
-        <span>Keyboard first. Motion when welcome. Room for your story.</span>
-      </footer>
     </div>
   );
 }

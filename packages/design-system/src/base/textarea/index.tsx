@@ -20,18 +20,20 @@ export function Textarea({
       .filter(Boolean)
       .join(" ") || undefined;
   return (
-    <div className="rf-field">
+    <div className="rf-field rf-textarea-field">
       <label className="rf-label" htmlFor={id}>
         {label}
       </label>
-      <textarea
-        rows={3}
-        {...props}
-        id={id}
-        className={`rf-input rf-textarea ${className}`}
-        aria-invalid={error ? true : props["aria-invalid"]}
-        aria-describedby={details}
-      />
+      <div className="rf-textarea-tablet">
+        <textarea
+          rows={4}
+          {...props}
+          id={id}
+          className={`rf-textarea ${className}`}
+          aria-invalid={error ? true : props["aria-invalid"]}
+          aria-describedby={details}
+        />
+      </div>
       {description && (
         <span className="rf-hint" id={`${id}-description`}>
           {description}
