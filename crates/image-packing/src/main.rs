@@ -32,7 +32,7 @@ struct Args {
     #[arg(long, default_value_t = LayoutOptions::default().margin_mm)]
     margin_mm: f64,
     /// Minimum gap between images, in millimetres.
-    #[arg(long, default_value_t = 2.0)]
+    #[arg(long, default_value_t = LayoutOptions::default().spacing_mm)]
     spacing_mm: f64,
     /// Print width for every input, preserving aspect ratios and overriding DPI sizing.
     #[arg(long)]

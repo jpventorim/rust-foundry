@@ -32,11 +32,13 @@ cargo run -p image-packing --features cli -- \
   --width-mm 50
 ```
 
-Defaults: A4 portrait, 300 DPI, zero paper margins, 2 mm gaps. The CLI always allows
+Defaults: A4 portrait, 300 DPI, zero paper margins, zero gaps between images. The CLI always allows
 90-degree image rotation and adds a black border before packing (3 pixels by default).
 Use `--margin-mm N` to change the margin on all four edges, for example
 `--margin-mm 5`. Zero margins allow image borders to align with the PDF page edges.
 Printing to those edges requires a printer and paper mode that support borderless printing.
+Image borders can touch for cutting after printing. Use `--spacing-mm N` to add
+a gap when needed. Borders remain part of each image; they do not overlap.
 `--width-mm` sets the print width of **every** input, preserving aspect ratios
 and overriding DPI sizing. The library also supports individual print widths.
 Run with `--help` for all options. Errors exit unsuccessfully. Generation finishes

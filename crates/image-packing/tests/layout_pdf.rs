@@ -2,6 +2,26 @@ use image::{DynamicImage, Rgb, RgbImage, Rgba, RgbaImage};
 use image_packing::{Error, ImageItem, LayoutOptions, PageSize, compose, layout, render_pdf};
 
 #[test]
+fn zero_spacing_allows_images_to_touch_and_can_be_overridden() {
+    let image = RgbImage::new(105, 297);
+    let items = [ImageItem::new("half-page", &image, 2).with_width_mm(105.0)];
+    let result = layout(&items, &LayoutOptions::default()).unwrap();
+    assert_eq!(result.pages().len(), 1);
+    let mut placements = result.pages()[0].placements.iter().collect::<Vec<_>>();
+    placements.sort_by(|a, b| a.x_mm.total_cmp(&b.x_mm));
+    assert!((placements[0].x_mm + placements[0].width_mm - placements[1].x_mm).abs() < 1e-8);
+    let spaced = layout(
+        &items,
+        &LayoutOptions {
+            spacing_mm: 1.0,
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    assert_eq!(spaced.pages().len(), 2);
+}
+
+#[test]
 fn small_copies_fill_earlier_pages_without_increasing_page_count() {
     // Dimensions of the user's two PNGs, including the validation borders.
     let small = RgbaImage::new(242, 360);
@@ -13,6 +33,7 @@ fn small_copies_fill_earlier_pages_without_increasing_page_count() {
     let options = LayoutOptions {
         allow_rotation: true,
         margin_mm: 10.0,
+        spacing_mm: 2.0,
         ..Default::default()
     };
     let result = layout(&items, &options).unwrap();
@@ -71,6 +92,7 @@ fn independent_quantities_span_pages_without_overlap_or_missing_copies() {
     ];
     let options = LayoutOptions {
         margin_mm: 10.0,
+        spacing_mm: 2.0,
         ..Default::default()
     };
     let result = layout(&items, &options).unwrap();

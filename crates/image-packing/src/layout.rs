@@ -44,7 +44,7 @@ pub struct LayoutOptions {
     pub dpi: f64,
     /// Equal margins on all four edges, in millimetres; defaults to zero.
     pub margin_mm: f64,
-    /// Minimum distance between image rectangles, in millimetres.
+    /// Minimum distance between image rectangles, in millimetres; defaults to zero.
     pub spacing_mm: f64,
     /// Allow clockwise quarter-turns to improve packing; enabled by default.
     pub allow_rotation: bool,
@@ -56,7 +56,7 @@ impl Default for LayoutOptions {
             page_size: PageSize::A4,
             dpi: 300.0,
             margin_mm: 0.0,
-            spacing_mm: 2.0,
+            spacing_mm: 0.0,
             allow_rotation: true,
         }
     }
