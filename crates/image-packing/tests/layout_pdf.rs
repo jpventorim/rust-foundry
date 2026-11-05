@@ -2,6 +2,64 @@ use image::{DynamicImage, Rgb, RgbImage, Rgba, RgbaImage};
 use image_packing::{Error, ImageItem, LayoutOptions, PageSize, compose, layout, render_pdf};
 
 #[test]
+fn small_copies_fill_earlier_pages_without_increasing_page_count() {
+    // Dimensions of the user's two PNGs, including the validation borders.
+    let small = RgbaImage::new(242, 360);
+    let big = RgbaImage::new(1187, 1778);
+    let items = [
+        ImageItem::new("small", &small, 40),
+        ImageItem::new("big", &big, 10),
+    ];
+    let options = LayoutOptions {
+        allow_rotation: true,
+        ..Default::default()
+    };
+    let result = layout(&items, &options).unwrap();
+    // Three large rectangles cannot share a page, even with rotation: their
+    // minimum widths preclude side-by-side placement and minimum heights total >277 mm.
+    assert_eq!(result.pages().len(), 5);
+    assert_eq!(result, layout(&items, &options).unwrap());
+    for page in result.pages() {
+        for (index, p) in page.placements.iter().enumerate() {
+            assert!(p.x_mm >= 10.0 && p.y_mm >= 10.0);
+            assert!(p.x_mm + p.width_mm <= 200.0 + 1e-8);
+            assert!(p.y_mm + p.height_mm <= 287.0 + 1e-8);
+            for q in &page.placements[index + 1..] {
+                assert!(
+                    p.x_mm + p.width_mm + 2.0 <= q.x_mm + 1e-8
+                        || q.x_mm + q.width_mm + 2.0 <= p.x_mm + 1e-8
+                        || p.y_mm + p.height_mm + 2.0 <= q.y_mm + 1e-8
+                        || q.y_mm + q.height_mm + 2.0 <= p.y_mm + 1e-8
+                );
+            }
+        }
+    }
+    let small_counts: Vec<_> = result
+        .pages()
+        .iter()
+        .map(|p| p.placements.iter().filter(|p| p.source_index == 0).count())
+        .collect();
+    assert_eq!(small_counts.iter().sum::<usize>(), 40);
+    assert!(
+        small_counts[0] >= 20,
+        "earlier pages should fill before later pages: {small_counts:?}"
+    );
+    assert!(
+        small_counts[2..].iter().all(|count| *count == 0),
+        "all small copies should fit on the first two pages: {small_counts:?}"
+    );
+    assert_eq!(
+        result
+            .pages()
+            .iter()
+            .flat_map(|p| &p.placements)
+            .filter(|p| p.source_index == 1)
+            .count(),
+        10
+    );
+}
+
+#[test]
 fn independent_quantities_span_pages_without_overlap_or_missing_copies() {
     let a = RgbImage::new(100, 100);
     let b = RgbImage::new(40, 60);

@@ -1,5 +1,5 @@
 use bin_packing::two_d::{
-    RectDemand2D, Sheet2D, TwoDAlgorithm, TwoDOptions, TwoDProblem, solve_2d,
+    RectDemand2D, Sheet2D, SheetLayout2D, TwoDAlgorithm, TwoDOptions, TwoDProblem, solve_2d,
 };
 use image::GenericImageView;
 
@@ -154,11 +154,70 @@ fn units(mm: f64, round_up: bool) -> Result<u32, Error> {
     } as u32)
 }
 
+fn denser(candidate: &[SheetLayout2D], best: &[SheetLayout2D]) -> bool {
+    candidate.len() < best.len()
+        || (candidate.len() == best.len()
+            && candidate
+                .iter()
+                .map(|page| page.used_area)
+                .cmp(best.iter().map(|page| page.used_area))
+                .is_gt())
+}
+
+fn pack(problem: TwoDProblem) -> Result<Vec<SheetLayout2D>, Error> {
+    let mut best: Option<Vec<SheetLayout2D>> = None;
+    for algorithm in [
+        TwoDAlgorithm::MaxRectsBestShortSideFit,
+        TwoDAlgorithm::MaxRects,
+        TwoDAlgorithm::MaxRectsBestLongSideFit,
+        TwoDAlgorithm::MaxRectsBottomLeft,
+        TwoDAlgorithm::MaxRectsContactPoint,
+    ] {
+        let options = TwoDOptions {
+            algorithm,
+            seed: Some(0),
+            ..Default::default()
+        };
+        // Keep whole-document candidates: filling one page greedily can otherwise
+        // increase the page count for the remaining images.
+        let global = solve_2d(problem.clone(), options.clone())?;
+        if !global.unplaced.is_empty() {
+            return Err(Error::IncompleteLayout);
+        }
+        let mut single_page = problem.clone();
+        single_page.sheets[0].quantity = Some(1);
+        let mut compact = Vec::new();
+        loop {
+            let result = solve_2d(single_page.clone(), options.clone())?;
+            if result.layouts.is_empty() {
+                return Err(Error::IncompleteLayout);
+            }
+            compact.extend(result.layouts);
+            if result.unplaced.is_empty() {
+                break;
+            }
+            single_page.demands = result.unplaced;
+        }
+        for mut candidate in [global.layouts, compact] {
+            // Prefer fewer pages, then concentrate occupied area on earlier pages.
+            candidate.sort_by_key(|page| std::cmp::Reverse(page.used_area));
+            if best
+                .as_ref()
+                .is_none_or(|current| denser(&candidate, current))
+            {
+                best = Some(candidate);
+            }
+        }
+    }
+    best.ok_or(Error::IncompleteLayout)
+}
+
 /// Pack every requested copy across as many pages as necessary.
 ///
 /// Sizes use integer micrometres internally, conservatively rounded to prevent
 /// overlaps or clipping. Metadata retains the exact image aspect ratio.
-/// Uses deterministic MaxRects best-short-side-fit; minimum page count is not guaranteed.
+/// Compares deterministic MaxRects strategies, minimizing page count first and
+/// maximizing occupied area on earlier pages second. Optimality is not guaranteed.
 ///
 /// # Errors
 /// Rejects empty input, non-positive quantities/DPI/print sizes, invalid margins,
@@ -218,31 +277,21 @@ pub fn layout<I: GenericImageView + ?Sized>(
             can_rotate: options.allow_rotation,
         });
     }
-    let solution = solve_2d(
-        TwoDProblem {
-            sheets: vec![Sheet2D {
-                name: "page".into(),
-                width: available_w + gap,
-                height: available_h + gap,
-                cost: 1.0,
-                quantity: None,
-                kerf: 0,
-                edge_kerf_relief: false,
-            }],
-            demands,
-        },
-        TwoDOptions {
-            algorithm: TwoDAlgorithm::MaxRectsBestShortSideFit,
-            seed: Some(0),
-            ..Default::default()
-        },
-    )?;
-    if !solution.unplaced.is_empty() {
-        return Err(Error::IncompleteLayout);
-    }
+    let sheets = pack(TwoDProblem {
+        sheets: vec![Sheet2D {
+            name: "page".into(),
+            width: available_w + gap,
+            height: available_h + gap,
+            cost: 1.0,
+            quantity: None,
+            kerf: 0,
+            edge_kerf_relief: false,
+        }],
+        demands,
+    })?;
     let mut copies = vec![0; items.len()];
-    let mut pages = Vec::with_capacity(solution.layouts.len());
-    for sheet in solution.layouts {
+    let mut pages = Vec::with_capacity(sheets.len());
+    for sheet in sheets {
         let mut placements = Vec::with_capacity(sheet.placements.len());
         for placed in sheet.placements {
             let index = placed

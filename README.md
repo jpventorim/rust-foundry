@@ -97,10 +97,14 @@ any DPI. Export retains source pixel dimensions and transparency, shares image
 resources for repeated copies, and never flattens entire pages to bitmaps.
 Print at actual size / 100% to preserve physical dimensions.
 
-Packing uses deterministic MaxRects best-short-side-fit with unlimited page
-inventory. Integer micrometres are used internally: available space rounds down,
+Packing compares five deterministic MaxRects heuristics, each using whole-document
+packing and packing one page at a time. Results are ranked by fewest pages first,
+then by the most occupied space on earlier pages, so small images fill available
+gaps instead of spreading across the document. Whole-document candidates are
+retained because greedily filling a page can increase the total page count.
+Integer micrometres are used internally: available space rounds down,
 while image rectangles and gaps round up. Export retains exact aspect ratios.
-Rounding adds less than 0.001 mm per dimension. The heuristic does not guarantee
+Rounding adds less than 0.001 mm per dimension. The search does not guarantee
 the minimum page count or preserve input order. Cropping, stretching, and
 automatic shrinking are never performed.
 
