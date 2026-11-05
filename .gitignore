@@ -11,6 +11,10 @@ node_modules
 /target
 dist
 dist-ssr
+storybook-static
+.rstack
+test-results
+styled-system
 *.local
 
 # Editor directories and files

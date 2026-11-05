@@ -3,19 +3,25 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "rsbuild dev",
     "build": "bun run typecheck && rsbuild build",
     "preview": "rsbuild preview",
-    "typecheck": "tsc --noEmit && tsc --project tsconfig.node.json --noEmit",
+    "typecheck": "tsc --noEmit && tsc --project tsconfig.node.json --noEmit && bun run --cwd packages/design-system typecheck",
     "lint": "bun run lint:js && bun run lint:rust",
     "lint:js": "biome check --error-on-warnings .",
     "lint:rust": "cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --all-features --locked -- -D warnings",
     "format": "biome format --write . && cargo fmt --all && cargo fmt --manifest-path src-tauri/Cargo.toml",
     "format:check": "biome format . && cargo fmt --all --check && cargo fmt --manifest-path src-tauri/Cargo.toml --check",
     "check": "bun run lint && bun run typecheck && bun run test",
-    "test": "rstest run",
-    "test:watch": "rstest watch",
+    "test": "bun run --cwd packages/design-system test",
+    "test:watch": "bun run --cwd packages/design-system test:watch",
+    "storybook": "bun run --cwd packages/design-system storybook",
+    "build:storybook": "bun run --cwd packages/design-system build-storybook",
+    "build:ui": "bun run --cwd packages/design-system build",
     "tauri": "tauri"
   },
   "dependencies": {

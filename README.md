@@ -118,6 +118,33 @@ Empty inputs, zero quantities, invalid configuration, and images too large for
 an empty printable page return typed errors. Reduce the print width, change page
 size/orientation, or allow rotation to accommodate an oversized image.
 
+## Design system
+
+`packages/design-system` is the `@rust-foundry/ui` Bun workspace package. It holds
+19 base components, each in its own folder with implementation, Panda CSS styles,
+Storybook stories, and Rstest browser tests. Higher-level Library components will
+be added only after their requirements are defined.
+
+The [design direction](packages/design-system/design.md) is a living guide to
+materials, palette, typography, motion, and accessibility. The component catalog
+has **Base** and **Design system / All components** sections.
+
+```sh
+bun run storybook       # Component catalog at http://localhost:6006
+bun run build:storybook # Build the static catalog
+bun run build:ui        # Build the ESM package, types, and generated Panda CSS
+```
+
+Before the first browser test, install Chromium:
+
+```sh
+cd packages/design-system
+bun x playwright install chromium
+```
+
+The package [README](packages/design-system/README.md) covers consuming the package
+and iterating on styles. This does not add the design system to the desktop shell.
+
 ## Development
 
 The frontend is an empty, unstyled React shell with no starter branding or demo
@@ -135,8 +162,8 @@ bun run lint         # Biome checks and Clippy for both Rust projects; warnings 
 bun run format       # Format frontend/configuration and both Rust projects
 bun run format:check # Check formatting without writing
 bun run check        # Lint, type checking, and frontend tests
-bun run test         # Rstest, single run
-bun run test:watch   # Rstest, watch mode
+bun run test         # Build Storybook; Rstest browser interactions and axe audits
+bun run test:watch   # Rstest watch mode against the last built Storybook
 bun run build       # Type checking and production output in dist/
 bun run preview     # Serve the production build
 bun run tauri dev   # Desktop app (requires Tauri platform prerequisites)
@@ -146,7 +173,8 @@ bun run tauri build # Package the desktop app
 Rsbuild keeps port 1420 fixed for Tauri and uses `TAURI_DEV_HOST` for mobile
 development connections and hot reload. It injects the frontend entry into
 `index.html`; static files in `public/` are copied to `dist/`.
-Rstest allows an empty suite until frontend behavior is added. Biome uses the
+Rstest checks every design-system story with axe and tests keyboard interactions,
+open overlays, and the responsive showcase. Biome uses the
 recommended lint preset and respects Git ignores; vendored skills and generated
 output are excluded.
 
@@ -167,3 +195,6 @@ Bun scripts for that app.
 
 Rust coding guidance is vendored in `.agents/skills/rust-skills`, together with
 its upstream license and reference rules.
+Vercel's React best-practices skill is vendored in
+`.agents/skills/react-best-practices` from
+[vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices).
