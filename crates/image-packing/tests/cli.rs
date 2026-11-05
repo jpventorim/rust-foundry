@@ -69,7 +69,7 @@ fn border_is_added_before_packing_and_export() {
         .arg("--item")
         .arg(&input)
         .arg("1")
-        .args(["--border", "--output"])
+        .arg("--output")
         .arg(&output)
         .output()
         .unwrap();
@@ -94,6 +94,33 @@ fn border_is_added_before_packing_and_export() {
         .operations;
     let matrix = operations.iter().find(|op| op.operator == "cm").unwrap();
     // The outer 16 x 26 pixels, including the border, determine the print size.
-    assert!((matrix.operands[0].as_float().unwrap() - 16.0 * 72.0 / 300.0).abs() < 0.001);
-    assert!((matrix.operands[3].as_float().unwrap() - 26.0 * 72.0 / 300.0).abs() < 0.001);
+    let values: Vec<_> = matrix
+        .operands
+        .iter()
+        .map(|v| v.as_float().unwrap())
+        .collect();
+    assert!((values[0].hypot(values[1]) - 16.0 * 72.0 / 300.0).abs() < 0.001);
+    assert!((values[2].hypot(values[3]) - 26.0 * 72.0 / 300.0).abs() < 0.001);
+}
+
+#[test]
+fn rotation_is_always_enabled_without_a_flag() {
+    let dir = tempfile::tempdir().unwrap();
+    let input = dir.path().join("wide.png");
+    let output = dir.path().join("rotated.pdf");
+    RgbImage::new(250, 100).save(&input).unwrap();
+    let result = Command::new(env!("CARGO_BIN_EXE_image-packing"))
+        .arg("--item")
+        .arg(&input)
+        .arg("1")
+        .args(["--width-mm", "250", "--output"])
+        .arg(&output)
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert_eq!(lopdf::Document::load(output).unwrap().get_pages().len(), 1);
 }

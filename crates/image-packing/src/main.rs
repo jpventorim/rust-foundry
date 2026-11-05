@@ -34,33 +34,35 @@ struct Args {
     /// Minimum gap between images, in millimetres.
     #[arg(long, default_value_t = 2.0)]
     spacing_mm: f64,
-    /// Allow images to rotate 90 degrees clockwise.
-    #[arg(long)]
-    rotate: bool,
     /// Print width for every input, preserving aspect ratios and overriding DPI sizing.
     #[arg(long)]
     width_mm: Option<f64>,
-    /// Add a 3-pixel opaque black border outside each image before packing.
-    #[arg(long)]
-    border: bool,
+    /// Black border thickness in source pixels; use 0 for no border.
+    #[arg(long, default_value_t = 3)]
+    border_px: u32,
 }
 
-fn with_border(image: image::DynamicImage) -> Result<image::DynamicImage> {
-    const BORDER: u32 = 3;
+fn with_border(image: image::DynamicImage, border: u32) -> Result<image::DynamicImage> {
+    if border == 0 {
+        return Ok(image);
+    }
+    let padding = border
+        .checked_mul(2)
+        .context("border thickness is too large")?;
     let width = image
         .width()
-        .checked_add(2 * BORDER)
+        .checked_add(padding)
         .context("bordered image is too wide")?;
     let height = image
         .height()
-        .checked_add(2 * BORDER)
+        .checked_add(padding)
         .context("bordered image is too tall")?;
     let mut bordered = image::RgbaImage::from_pixel(width, height, image::Rgba([0, 0, 0, 255]));
     image::imageops::replace(
         &mut bordered,
         &image.to_rgba8(),
-        i64::from(BORDER),
-        i64::from(BORDER),
+        i64::from(border),
+        i64::from(border),
     );
     Ok(image::DynamicImage::ImageRgba8(bordered))
 }
@@ -83,11 +85,7 @@ fn run(args: Args) -> Result<()> {
             .context("cannot identify image format")?
             .decode()
             .with_context(|| format!("cannot decode image {}", path.display()))?;
-        let image = if args.border {
-            with_border(image)?
-        } else {
-            image
-        };
+        let image = with_border(image, args.border_px)?;
         inputs.push((path, image, quantity));
     }
     let items: Vec<_> = inputs
@@ -109,7 +107,7 @@ fn run(args: Args) -> Result<()> {
             dpi: args.dpi,
             margin_mm: args.margin_mm,
             spacing_mm: args.spacing_mm,
-            allow_rotation: args.rotate,
+            allow_rotation: true,
         },
     )?;
     std::fs::write(&args.output, &output.pdf)
@@ -139,7 +137,7 @@ mod tests {
     #[test]
     fn border_is_three_pixels_and_preserves_source_transparency() {
         let source = image::RgbaImage::from_pixel(7, 11, image::Rgba([20, 80, 120, 50]));
-        let bordered = with_border(source.clone().into()).unwrap().to_rgba8();
+        let bordered = with_border(source.clone().into(), 3).unwrap().to_rgba8();
         assert_eq!(bordered.dimensions(), (13, 17));
         for (x, y, pixel) in bordered.enumerate_pixels() {
             if (3..10).contains(&x) && (3..14).contains(&y) {
@@ -148,5 +146,24 @@ mod tests {
                 assert_eq!(*pixel, image::Rgba([0, 0, 0, 255]));
             }
         }
+    }
+
+    #[test]
+    fn border_thickness_is_configurable_and_checked() {
+        let source = image::RgbaImage::from_pixel(7, 11, image::Rgba([20, 80, 120, 50]));
+        for border in [0, 1, 7] {
+            let bordered = with_border(source.clone().into(), border)
+                .unwrap()
+                .to_rgba8();
+            assert_eq!(bordered.dimensions(), (7 + 2 * border, 11 + 2 * border));
+            for (x, y, pixel) in bordered.enumerate_pixels() {
+                if (border..border + 7).contains(&x) && (border..border + 11).contains(&y) {
+                    assert_eq!(*pixel, *source.get_pixel(x - border, y - border));
+                } else {
+                    assert_eq!(*pixel, image::Rgba([0, 0, 0, 255]));
+                }
+            }
+        }
+        assert!(with_border(source.into(), u32::MAX).is_err());
     }
 }

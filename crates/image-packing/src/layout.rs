@@ -46,7 +46,7 @@ pub struct LayoutOptions {
     pub margin_mm: f64,
     /// Minimum distance between image rectangles, in millimetres.
     pub spacing_mm: f64,
-    /// Allow clockwise quarter-turns to improve packing.
+    /// Allow clockwise quarter-turns to improve packing; enabled by default.
     pub allow_rotation: bool,
 }
 
@@ -57,7 +57,7 @@ impl Default for LayoutOptions {
             dpi: 300.0,
             margin_mm: 10.0,
             spacing_mm: 2.0,
-            allow_rotation: false,
+            allow_rotation: true,
         }
     }
 }

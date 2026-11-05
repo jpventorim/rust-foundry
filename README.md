@@ -29,19 +29,20 @@ cargo run -p image-packing --features cli -- \
   --orientation landscape \
   --margin-mm 10 \
   --spacing-mm 2 \
-  --rotate \
   --width-mm 50
 ```
 
-Defaults: A4 portrait, 300 DPI, 10 mm margins, 2 mm gaps, no rotation.
+Defaults: A4 portrait, 300 DPI, 10 mm margins, 2 mm gaps. The CLI always allows
+90-degree image rotation and adds a black border before packing (3 pixels by default).
 `--width-mm` sets the print width of **every** input, preserving aspect ratios
 and overriding DPI sizing. The library also supports individual print widths.
 Run with `--help` for all options. Errors exit unsuccessfully. Generation finishes
 before writing the destination; an existing output file is overwritten on success.
 
-Use `--border` to visualize image bounds during validation. It adds an opaque
-black border 3 source pixels thick outside each image before packing. Each image
-grows by 6 pixels in both dimensions; its original pixels and transparency stay
+The CLI adds an opaque black border outside each image before packing to
+visualize image bounds during validation. Set `--border-px N` to change its
+thickness (default `3`), or use `--border-px 0` for no border. With the default,
+each image grows by 6 pixels in both dimensions; its original pixels and transparency stay
 inside the border. At 300 DPI the border prints 0.254 mm thick. Packing includes
 the border, and `--width-mm`, when supplied, sets the total bordered width.
 

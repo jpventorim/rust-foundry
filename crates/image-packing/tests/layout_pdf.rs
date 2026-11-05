@@ -116,14 +116,16 @@ fn rotation_allows_an_otherwise_oversized_image() {
     let image = RgbaImage::from_pixel(250, 100, Rgba([200, 40, 80, 128]));
     let items = [ImageItem::new("wide", &image, 1).with_width_mm(250.0)];
     assert!(matches!(
-        layout(&items, &LayoutOptions::default()),
+        layout(
+            &items,
+            &LayoutOptions {
+                allow_rotation: false,
+                ..Default::default()
+            }
+        ),
         Err(Error::ImageTooLarge { .. })
     ));
-    let options = LayoutOptions {
-        allow_rotation: true,
-        ..Default::default()
-    };
-    let output = compose(&items, &options).unwrap();
+    let output = compose(&items, &LayoutOptions::default()).unwrap();
     let p = &output.layout.pages()[0].placements[0];
     assert!(p.rotated);
     assert!((p.width_mm - 100.0).abs() < 1e-8);
