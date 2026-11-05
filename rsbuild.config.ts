@@ -1,6 +1,6 @@
+import process from "node:process";
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
-import process from "node:process";
 
 const host = process.env.TAURI_DEV_HOST;
 

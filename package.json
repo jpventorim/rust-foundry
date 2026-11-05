@@ -8,6 +8,12 @@
     "build": "bun run typecheck && rsbuild build",
     "preview": "rsbuild preview",
     "typecheck": "tsc --noEmit && tsc --project tsconfig.node.json --noEmit",
+    "lint": "bun run lint:js && bun run lint:rust",
+    "lint:js": "biome check --error-on-warnings .",
+    "lint:rust": "cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --all-features --locked -- -D warnings",
+    "format": "biome format --write . && cargo fmt --all && cargo fmt --manifest-path src-tauri/Cargo.toml",
+    "format:check": "biome format . && cargo fmt --all --check && cargo fmt --manifest-path src-tauri/Cargo.toml --check",
+    "check": "bun run lint && bun run typecheck && bun run test",
     "test": "rstest run",
     "test:watch": "rstest watch",
     "tauri": "tauri"
@@ -15,17 +21,17 @@
   "dependencies": {
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "@tauri-apps/api": "^2.12.4",
-    "@tauri-apps/plugin-opener": "^2.7.2"
+    "@tauri-apps/api": "^2.12.4"
   },
   "devDependencies": {
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
+    "@biomejs/biome": "^2.6.5",
     "@rsbuild/core": "^2.3.1",
     "@rsbuild/plugin-react": "^2.1.1",
     "@rstest/core": "^0.12.6",
+    "@tauri-apps/cli": "^2.12.4",
     "@types/node": "^26.6.6",
-    "typescript": "~7.0.2",
-    "@tauri-apps/cli": "^2.12.4"
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "~7.0.2"
   }
 }

@@ -120,13 +120,21 @@ size/orientation, or allow rotation to accommodate an oversized image.
 
 ## Development
 
-The frontend uses React, TypeScript 7, Rsbuild, and Rstest. Install Node.js
+The frontend is an empty, unstyled React shell with no starter branding or demo
+commands. The desktop icons are transparent placeholders required by Tauri's
+Windows build tooling. Replace them before distributing the app.
+
+The frontend uses React, TypeScript 7, Rsbuild, Rstest, and Biome. Install Node.js
 22.12 or newer and Bun, then run:
 
 ```sh
 bun install --frozen-lockfile
 bun run dev          # Frontend at http://localhost:1420
 bun run typecheck    # App and tooling configuration
+bun run lint         # Biome checks and Clippy for both Rust projects; warnings fail
+bun run format       # Format frontend/configuration and both Rust projects
+bun run format:check # Check formatting without writing
+bun run check        # Lint, type checking, and frontend tests
 bun run test         # Rstest, single run
 bun run test:watch   # Rstest, watch mode
 bun run build       # Type checking and production output in dist/
@@ -138,6 +146,9 @@ bun run tauri build # Package the desktop app
 Rsbuild keeps port 1420 fixed for Tauri and uses `TAURI_DEV_HOST` for mobile
 development connections and hot reload. It injects the frontend entry into
 `index.html`; static files in `public/` are copied to `dist/`.
+Rstest allows an empty suite until frontend behavior is added. Biome uses the
+recommended lint preset and respects Git ignores; vendored skills and generated
+output are excluded.
 
 Rust checks:
 
@@ -146,6 +157,7 @@ cargo test --workspace
 cargo test --workspace --all-features
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --all-features -- -D warnings
 ```
 
 Tests cover quantities, pagination, sizing, spacing, rotation, transparency,
