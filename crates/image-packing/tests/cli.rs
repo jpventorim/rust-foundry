@@ -56,3 +56,44 @@ fn invalid_input_fails_without_creating_a_pdf() {
         assert!(!result.stderr.is_empty());
     }
 }
+
+#[test]
+fn border_is_added_before_packing_and_export() {
+    let dir = tempfile::tempdir().unwrap();
+    let input = dir.path().join("image.png");
+    let output = dir.path().join("bordered.pdf");
+    RgbImage::from_pixel(10, 20, Rgb([255, 80, 30]))
+        .save(&input)
+        .unwrap();
+    let result = Command::new(env!("CARGO_BIN_EXE_image-packing"))
+        .arg("--item")
+        .arg(&input)
+        .arg("1")
+        .args(["--border", "--output"])
+        .arg(&output)
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    let pdf = lopdf::Document::load(&output).unwrap();
+    assert!(
+        pdf.objects
+            .values()
+            .filter_map(|o| o.as_stream().ok())
+            .any(
+                |s| s.dict.get(b"Width").and_then(|o| o.as_i64()).ok() == Some(16)
+                    && s.dict.get(b"Height").and_then(|o| o.as_i64()).ok() == Some(26)
+            )
+    );
+    let page_id = *pdf.get_pages().values().next().unwrap();
+    let operations = lopdf::content::Content::decode(&pdf.get_page_content(page_id).unwrap())
+        .unwrap()
+        .operations;
+    let matrix = operations.iter().find(|op| op.operator == "cm").unwrap();
+    // The outer 16 x 26 pixels, including the border, determine the print size.
+    assert!((matrix.operands[0].as_float().unwrap() - 16.0 * 72.0 / 300.0).abs() < 0.001);
+    assert!((matrix.operands[3].as_float().unwrap() - 26.0 * 72.0 / 300.0).abs() < 0.001);
+}

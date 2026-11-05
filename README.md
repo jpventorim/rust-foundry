@@ -39,6 +39,12 @@ and overriding DPI sizing. The library also supports individual print widths.
 Run with `--help` for all options. Errors exit unsuccessfully. Generation finishes
 before writing the destination; an existing output file is overwritten on success.
 
+Use `--border` to visualize image bounds during validation. It adds an opaque
+black border 3 source pixels thick outside each image before packing. Each image
+grows by 6 pixels in both dimensions; its original pixels and transparency stay
+inside the border. At 300 DPI the border prints 0.254 mm thick. Packing includes
+the border, and `--width-mm`, when supplied, sets the total bordered width.
+
 ## Library
 
 Use `crates/image-packing` as a path dependency from another project.
