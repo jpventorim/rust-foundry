@@ -1,7 +1,117 @@
-# Tauri + React + Typescript
+# Rust Foundry
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Pack one or more images, each with an independent quantity, into a multi-page
+PDF using `image`, `bin-packing`, and `krilla`. The library and `clap` CLI are
+independent of the existing Tauri + React application.
 
-## Recommended IDE Setup
+## CLI
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+Requires Rust 1.94 or newer.
+
+```sh
+cargo run -p image-layout-cli -- \
+  --item photo.png 4 \
+  --item logo.jpg 2 \
+  --output layout.pdf
+```
+
+Repeat `--item IMAGE QUANTITY` for each input. Quote paths containing spaces.
+PNG and JPEG decoding are enabled. The result is one PDF with enough A4 pages
+for every copy.
+
+```sh
+cargo run -p image-layout-cli -- \
+  --item photo.png 12 \
+  --output layout.pdf \
+  --dpi 300 \
+  --orientation landscape \
+  --margin-mm 10 \
+  --spacing-mm 2 \
+  --rotate \
+  --width-mm 50
+```
+
+Defaults: A4 portrait, 300 DPI, 10 mm margins, 2 mm gaps, no rotation.
+`--width-mm` sets the print width of **every** input, preserving aspect ratios
+and overriding DPI sizing. The library also supports individual print widths.
+Run with `--help` for all options. Errors exit unsuccessfully. Generation finishes
+before writing the destination; an existing output file is overwritten on success.
+
+## Library
+
+Use `crates/image-layout` as a path dependency from another project.
+
+```rust
+use image_layout::{ImageItem, LayoutOptions, compose};
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let photo = image::open("photo.png")?;
+    let logo = image::open("logo.jpg")?;
+    let items = [
+        ImageItem::new("photo", &photo, 4).with_width_mm(60.0),
+        ImageItem::new("logo", &logo, 2).with_width_mm(30.0),
+    ];
+    let output = compose(&items, &LayoutOptions::default())?;
+    std::fs::write("layout.pdf", &output.pdf)?;
+    for (index, page) in output.layout.pages().iter().enumerate() {
+        println!("Page {}: {} images", index + 1, page.placements.len());
+    }
+    Ok(())
+}
+```
+
+Inputs borrow `GenericImageView` values, including `ImageBuffer`, subimages, and
+`DynamicImage`. A batch has one view type, with 8-bit pixel channels. Use
+`DynamicImage` for mixed RGB/RGBA sources. Export normalizes to RGBA8, including
+when a `DynamicImage` holds higher bit depths. ICC/profile preservation and print
+color management are outside the current API.
+
+Call `layout(&items, &options)` to inspect placements without exporting, then
+`render_pdf(&items, &layout)` to obtain PDF bytes. Layouts are immutable. Export
+checks source order, identifiers, pixel dimensions, quantities, and print widths;
+pixel contents may change while reusing a layout.
+
+`LayoutOptions` accepts custom page dimensions, A4 portrait, or
+`PageSize::A4.rotated()` for landscape. Each placement records its source index
+and identifier, zero-based copy index, top-left coordinates, physical dimensions,
+and clockwise quarter-turn flag. The containing page gives its page index.
+Duplicate source identifiers are supported.
+
+## Physical sizing
+
+PDF pages have physical dimensions, rather than a fixed pixel resolution. DPI
+determines image size when no explicit print width is supplied:
+
+`width_mm = pixel_width / dpi × 25.4`
+
+A 600-pixel-wide image at 300 DPI prints 50.8 mm wide. A4 stays 210 × 297 mm at
+any DPI. Export retains source pixel dimensions and transparency, shares image
+resources for repeated copies, and never flattens entire pages to bitmaps.
+Print at actual size / 100% to preserve physical dimensions.
+
+Packing uses deterministic MaxRects best-short-side-fit with unlimited page
+inventory. Integer micrometres are used internally: available space rounds down,
+while image rectangles and gaps round up. Export retains exact aspect ratios.
+Rounding adds less than 0.001 mm per dimension. The heuristic does not guarantee
+the minimum page count or preserve input order. Cropping, stretching, and
+automatic shrinking are never performed.
+
+Empty inputs, zero quantities, invalid configuration, and images too large for
+an empty printable page return typed errors. Reduce the print width, change page
+size/orientation, or allow rotation to accommodate an oversized image.
+
+## Development
+
+```sh
+cargo test --workspace
+cargo fmt --all --check
+cargo clippy --workspace --all-targets -- -D warnings
+```
+
+Tests cover quantities, pagination, sizing, spacing, rotation, transparency,
+resource reuse, validation, and CLI file-to-file execution. The Tauri app in
+`src-tauri` stays a separate Cargo project with its own lockfile; use the existing
+Bun scripts for that app.
+
+Rust coding guidance is vendored in `.agents/skills/rust-skills`, together with
+its upstream license and reference rules.

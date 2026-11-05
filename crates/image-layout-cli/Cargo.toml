@@ -1,0 +1,20 @@
+[package]
+name = "image-layout-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "image-layout"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+image.workspace = true
+image-layout = { path = "../image-layout" }
+anyhow = "1"
+
+[dev-dependencies]
+tempfile = "3"
+lopdf = "0.39"

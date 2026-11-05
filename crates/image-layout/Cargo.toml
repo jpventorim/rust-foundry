@@ -1,0 +1,16 @@
+[package]
+name = "image-layout"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Pack images with independent quantities into multi-page printable PDFs"
+
+[dependencies]
+bin-packing = { version = "0.4", default-features = false, features = ["two-d"] }
+image.workspace = true
+krilla = { version = "0.8", default-features = false, features = ["raster-images"] }
+thiserror = "2"
+
+[dev-dependencies]
+lopdf = "0.39"
