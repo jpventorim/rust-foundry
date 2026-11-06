@@ -16,7 +16,7 @@ export const tooltipStyles = defineGlobalStyles({
     fontWeight: "500",
     whiteSpace: "normal",
     overflowWrap: "anywhere",
-    boxShadow: "1px 3px 0 #151c1d55, 0 5px 8px #0002",
+    boxShadow: "var(--rf-depth-overlay)",
     transition: "opacity 140ms ease-out",
   },
   ".rf-tooltip::before": {

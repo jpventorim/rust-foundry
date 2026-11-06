@@ -18,9 +18,7 @@ export const switchStyles = defineGlobalStyles({
     borderRadius: "2px",
     border: "2px solid #392315",
     background: "var(--rf-wood-texture)",
-    backgroundSize: "160px 80px, auto, auto",
-    boxShadow:
-      "inset 0 1px 0 #d8a46870, inset 0 -3px 0 #1b100b70, 1px 2px 0 #24170d70",
+    boxShadow: "inset 0 1px 0 var(--rf-edge-light), var(--rf-depth-mounted)",
     cursor: "pointer",
   },
   ".rf-switch::before": {
@@ -45,7 +43,9 @@ export const switchStyles = defineGlobalStyles({
     boxShadow: "inset 1px 0 0 #ffffff35, 1px 1px 1px #0008",
     pointerEvents: "none",
   },
-  ".rf-switch-keeper-end": { left: "66px" },
+  ".rf-switch-keeper-end": {
+    left: "66px",
+  },
   ".rf-switch-thumb": {
     position: "absolute",
     top: "13px",
@@ -91,7 +91,11 @@ export const switchStyles = defineGlobalStyles({
     textDecoration: "underline",
     textUnderlineOffset: "2px",
   },
-  ".rf-switch-state-on": { left: "auto", right: "5px", fontWeight: "600" },
+  ".rf-switch-state-on": {
+    left: "auto",
+    right: "5px",
+    fontWeight: "600",
+  },
   ".rf-switch[data-checked] .rf-switch-state-off": {
     fontWeight: "600",
     textDecoration: "none",
@@ -105,14 +109,23 @@ export const switchStyles = defineGlobalStyles({
     outline: "3px solid var(--rf-focus)",
     outlineOffset: "4px",
   },
-  ".rf-switch:not([data-disabled]):hover": { borderColor: "#bd9564" },
+  ".rf-switch:not([data-disabled]):hover": {
+    borderColor: "#bd9564",
+  },
   ".rf-switch:not([data-disabled]):active .rf-switch-thumb::after": {
     boxShadow: "inset 1px 0 0 #d3d8db50, 1px 1px 0 #0009",
   },
-  ".rf-switch[data-disabled]": { opacity: "0.55", cursor: "not-allowed" },
-  ".rf-switch-choice:has([data-disabled])": { cursor: "not-allowed" },
+  ".rf-switch[data-disabled]": {
+    opacity: "0.55",
+    cursor: "not-allowed",
+  },
+  ".rf-switch-choice:has([data-disabled])": {
+    cursor: "not-allowed",
+  },
   "@media (prefers-reduced-motion: reduce)": {
-    ".rf-switch-thumb": { transition: "none" },
+    ".rf-switch-thumb": {
+      transition: "none",
+    },
   },
   "@media (forced-colors: active)": {
     ".rf-switch, .rf-switch-keeper, .rf-switch-thumb, .rf-switch-thumb::after":
@@ -126,11 +139,19 @@ export const switchStyles = defineGlobalStyles({
       borderColor: "ButtonText",
       boxShadow: "none",
     },
-    ".rf-switch .rf-switch-state": { color: "ButtonText", opacity: "1" },
+    ".rf-switch .rf-switch-state": {
+      color: "ButtonText",
+      opacity: "1",
+    },
     ".rf-switch[data-checked] .rf-switch-thumb::after": {
       background: "Highlight",
     },
-    ".rf-switch[data-disabled]": { opacity: "1", borderColor: "GrayText" },
-    ".rf-switch:focus-visible": { outlineColor: "Highlight" },
+    ".rf-switch[data-disabled]": {
+      opacity: "1",
+      borderColor: "GrayText",
+    },
+    ".rf-switch:focus-visible": {
+      outlineColor: "Highlight",
+    },
   },
 });

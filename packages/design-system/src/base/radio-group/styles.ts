@@ -8,7 +8,7 @@ export const radioGroupStyles = defineGlobalStyles({
   },
   ".rf-radio-label": {
     color: "var(--rf-ink)",
-    fontSize: "0.9375rem",
+    fontSize: "var(--rf-label-size)",
     fontWeight: "600",
     lineHeight: "1.6",
     overflowWrap: "anywhere",
@@ -35,7 +35,7 @@ export const radioGroupStyles = defineGlobalStyles({
     overflowWrap: "anywhere",
   },
   ".rf-radio-choice:has(.rf-radio[data-disabled])": {
-    color: "#665541",
+    color: "var(--rf-muted)",
     cursor: "not-allowed",
   },
   ".rf-radio": {
@@ -63,8 +63,7 @@ export const radioGroupStyles = defineGlobalStyles({
     border: "3px solid #293236",
     borderRadius: "50%",
     background: "var(--rf-wood-texture)",
-    boxShadow:
-      "inset 0 1px 0 #ba9066, inset 0 -2px 0 #2d1b13, 0 2px 0 #171e21, 0 3px 2px #171e2140",
+    boxShadow: "inset 0 1px 0 var(--rf-edge-light), var(--rf-depth-mounted)",
     pointerEvents: "none",
   },
   ".rf-radio::after": {
@@ -125,13 +124,17 @@ export const radioGroupStyles = defineGlobalStyles({
     boxShadow: "inset 0 1px 0 #fff8e8, inset 0 -1px 0 #b9a27c",
   },
   "@media (prefers-reduced-motion: reduce)": {
-    ".rf-radio-indicator": { transition: "none" },
+    ".rf-radio-indicator": {
+      transition: "none",
+    },
     ".rf-radio:active:not([data-disabled]) .rf-radio-indicator": {
       transform: "none",
     },
   },
   "@media (forced-colors: active)": {
-    ".rf-radio-choice, .rf-radio-label": { color: "CanvasText" },
+    ".rf-radio-choice, .rf-radio-label": {
+      color: "CanvasText",
+    },
     ".rf-radio::before, .rf-radio::after": {
       background: "Canvas",
       borderColor: "ButtonText",
@@ -147,11 +150,15 @@ export const radioGroupStyles = defineGlobalStyles({
       background: "HighlightText",
       boxShadow: "none",
     },
-    ".rf-radio:focus-visible": { outlineColor: "Highlight" },
+    ".rf-radio:focus-visible": {
+      outlineColor: "Highlight",
+    },
     ".rf-radio:hover:not([data-disabled])::before": {
       borderColor: "ButtonText",
     },
-    ".rf-radio-choice:has(.rf-radio[data-disabled])": { color: "GrayText" },
+    ".rf-radio-choice:has(.rf-radio[data-disabled])": {
+      color: "GrayText",
+    },
     ".rf-radio[data-disabled]::before, .rf-radio[data-disabled]::after": {
       borderColor: "GrayText",
     },

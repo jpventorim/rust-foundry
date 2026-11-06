@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "storybook-react-rsbuild";
+import { Panel } from "../panel";
 import { TextField } from "./index";
 
 const meta = {
@@ -68,5 +69,16 @@ export const NarrowLayout: StoryObj = {
         error="Choose a shorter title before saving this record."
       />
     </div>
+  ),
+};
+
+export const InPanel: StoryObj = {
+  render: () => (
+    <Panel>
+      <TextField
+        label="Name"
+        description="This field shares the panel backing."
+      />
+    </Panel>
   ),
 };

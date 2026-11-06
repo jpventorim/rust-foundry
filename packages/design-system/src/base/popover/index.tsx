@@ -1,6 +1,7 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { X } from "lucide-react";
 import type { ComponentProps, ReactElement, ReactNode } from "react";
+import { useTheme } from "../../theme/provider";
 
 export function Popover({
   trigger,
@@ -14,12 +15,14 @@ export function Popover({
   description: string;
   children?: ReactNode;
 }) {
+  const theme = useTheme();
   return (
     <BasePopover.Root {...props}>
       <BasePopover.Trigger render={trigger} />
       <BasePopover.Portal>
         <BasePopover.Positioner
           className="rf-theme rf-popover-positioner"
+          data-theme={theme}
           sideOffset={12}
           collisionPadding={16}
         >
@@ -28,7 +31,7 @@ export function Popover({
               className="rf-popover-attachment"
               aria-hidden="true"
             />
-            <div className="rf-popover-sheet">
+            <div className="rf-popover-sheet rf-paper-surface">
               <div className="rf-popover-header">
                 <BasePopover.Title className="rf-popover-title">
                   {title}

@@ -1,6 +1,6 @@
 # Foundry UI — design direction
 
-Status: second iteration. A living design brief, not a finished brand.
+Status: third iteration. A living design brief, not a finished brand.
 
 ## The table, not the dashboard
 
@@ -49,24 +49,64 @@ exposes `--rf-wood-texture`, `--rf-iron-texture`, `--rf-paper-texture`, and
 `--rf-gold-texture`, plus the corresponding grain layers. No downloads or runtime
 image effects are needed. Component styles remain in their own folders.
 
-## Palette
+## Scene and theme contract
+
+Use quiet timber as the ambient canvas, paper or hide as the working area, and
+iron or painted wood as hardware. The canvas grain has less contrast and detail
+than component timber. Material edges and contact shadows explain where objects
+touch; repeating a complete frame around every nested field obscures that hierarchy.
+
+Both themes preserve construction and dimensions. Dark mode uses darker timber
+and muted parchment; paper keeps dark ink. Ambient labels use ivory on dark
+timber. Do not invert paper into black or inherit ambient ivory onto paper.
+
+| Material role       | Light     | Dark      |
+| ------------------- | --------- | --------- |
+| Canvas              | `#d6ccba` | `#292722` |
+| Ambient ink         | `#302a23` | `#f4ecd8` |
+| Paper               | `#f4ecd9` | `#d9ccb0` |
+| Paper ink           | `#30291f` | `#2b251d` |
+| Paper secondary ink | `#655640` | `#564a37` |
+| Component timber    | `#66503a` | `#493a2e` |
+| Iron                | `#3b4548` | `#343e41` |
+
+`src/theme/contracts.ts` owns theme values and material-specific ink aliases.
+`ThemeProvider` supplies explicit theme scope and context; portal positioners
+receive that scope so mixed-theme overlays retain the correct material colors.
+Texture variables are redeclared per scope because CSS resolves nested custom
+property references where they are declared.
+
+Use shared depth tokens for paper, inset writing, mounted controls, pressed
+controls, and overlays. Paper rests close to its backing. Mounted controls have
+a short hard cut edge and contact shadow. Only overlays cast a larger shadow.
+Keep edge lighting subtle and consistently above the object; avoid per-component
+spotlight gradients and large diffuse glows.
+
+Fields default to `surface="auto"`: an independent paper insert on timber or
+leather, an integrated writing area inside paper. Explicit `mounted` and
+`integrated` overrides express the intended construction. A standalone textarea
+has two iron clips and fine ruling; inside paper the extra frame and clips disappear.
+Its native resize handle, persistent label, help, errors, and focus remain.
+
+## Accent palette and light defaults
 
 | Token         | Value     | Role                                        |
 | ------------- | --------- | ------------------------------------------- |
-| ink           | `#30271e` | Body text on paper                          |
-| muted         | `#665541` | Secondary text on paper                     |
-| paper         | `#f3e8cf` | Main writing surface                        |
-| paperLight    | `#fff8e8` | Lighter paper and inputs                    |
-| border        | `#b9a27c` | Paper and cut-edge detail                   |
+| ink           | `#30291f` | Body text on paper                          |
+| muted         | `#655640` | Secondary text on paper                     |
+| paper         | `#f4ecd9` | Main writing surface                        |
+| paperLight    | `#fbf5e8` | Lighter paper and inputs                    |
+| border        | `#b5a080` | Paper and cut-edge detail                   |
 | gold          | `#e3b958` | Candle-gold accents, with dark lettering    |
 | ruby          | `#912e38` | Red paint, destructive actions, error seals |
 | emerald       | `#236044` | Green paint, positive states, confirmation  |
 | sapphire      | `#2a537e` | Blue paint, information, cool emphasis      |
 | focus         | `#204f91` | Focus against pale surfaces                 |
 | iron material | `#3b4548` | Coarse iron, ivory lettering                |
-| wood material | `#593b2b` | Timber frames, ivory lettering              |
+| wood material | `#66503a` | Timber frames, ivory lettering              |
 
-Panda owns these tokens in `panda.config.ts`. Tones are `gold`, `ruby`, `emerald`,
+Panda owns accent/default tokens in `panda.config.ts`; theme contracts override
+material values per scope. Tones are `gold`, `ruby`, `emerald`,
 `sapphire`, and `neutral`. The unpublished package's old `brass` tone is retired.
 Each tone supplies `--rf-on-accent`. Gold fills need dark text. Small gold text
 on pale paper fails readability; use dark ink instead. Disabled labels stay legible.
@@ -134,7 +174,9 @@ accessibility, and (3) final details and targeted verification. Shared material
 integration, visual review, and browser verification happen centrally.
 `design-review.md` records decisions and findings.
 
-Storybook retains **Base** and **Design system / All components**. The desktop app
+Storybook retains
+**Base** and **Design system / All components**, with **Compositions** and
+**Themes** for contextual review. The desktop app
 stays an empty shell. No new product components are in scope.
 
 ## Still open
@@ -142,6 +184,6 @@ stays an empty shell. No new product components are in scope.
 1. What balance of wood, paper, and iron works in dense everyday tools?
 2. Which jewel color should dominate primary actions?
 3. Is leather a core material or occasional binding detail?
-4. Is a full dark material theme needed?
+4. How much parchment should remain visible in dense dark-theme screens?
 5. Which additional base primitives do real workflows require next?
 6. What name, symbol, and voice should become the final brand?

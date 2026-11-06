@@ -1,4 +1,5 @@
 import { type ComponentProps, useId } from "react";
+import type { FieldSurface } from "../../theme/provider";
 import type { FieldDetails } from "../types";
 
 export function Textarea({
@@ -7,8 +8,9 @@ export function Textarea({
   error,
   id: providedId,
   className = "",
+  surface = "auto",
   ...props
-}: ComponentProps<"textarea"> & FieldDetails) {
+}: ComponentProps<"textarea"> & FieldDetails & { surface?: FieldSurface }) {
   const generatedId = useId();
   const id = providedId ?? generatedId;
   const details =
@@ -20,7 +22,7 @@ export function Textarea({
       .filter(Boolean)
       .join(" ") || undefined;
   return (
-    <div className="rf-field rf-textarea-field">
+    <div className="rf-field rf-textarea-field" data-surface={surface}>
       <label className="rf-label" htmlFor={id}>
         {label}
       </label>

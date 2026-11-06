@@ -20,6 +20,8 @@ import { Tabs } from "../src/base/tabs";
 import { TextField } from "../src/base/text-field";
 import { Textarea } from "../src/base/textarea";
 import { Tooltip } from "../src/base/tooltip";
+import { darkTheme, lightTheme } from "../src/theme/contracts";
+import { useTheme } from "../src/theme/provider";
 
 function Section({
   title,
@@ -31,7 +33,7 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="rf-codex-section">
+    <section className="rf-codex-section rf-paper-surface">
       <div className="rf-codex-heading">
         <div>
           <h2>{title}</h2>
@@ -54,15 +56,32 @@ function Specimen({ name, children }: { name: string; children: ReactNode }) {
 
 const swatches = [
   { name: "Candle gold", color: "#e3b958", texture: "var(--rf-gold-texture)" },
-  { name: "Sawn oak", color: "#593b2b", texture: "var(--rf-wood-texture)" },
-  { name: "Coarse iron", color: "#3b4548", texture: "var(--rf-iron-texture)" },
   { name: "Ruby wax", color: "#912e38" },
   { name: "Forest enamel", color: "#236044" },
   { name: "Sapphire ink", color: "#2a537e" },
-  { name: "Warm parchment", color: "#f3e8cf" },
 ];
 
 function AllComponents() {
+  const theme = useTheme() === "dark" ? darkTheme : lightTheme;
+  const materialSwatches = [
+    swatches[0],
+    {
+      name: "Sawn oak",
+      color: theme["--rf-wood-color"],
+      texture: "var(--rf-wood-texture)",
+    },
+    {
+      name: "Coarse iron",
+      color: theme["--rf-iron-color"],
+      texture: "var(--rf-iron-texture)",
+    },
+    ...swatches.slice(1),
+    {
+      name: "Warm parchment",
+      color: theme["--rf-paper"],
+      texture: "var(--rf-paper-texture)",
+    },
+  ];
   return (
     <div className="rf-codex">
       <header className="rf-codex-header">
@@ -77,7 +96,7 @@ function AllComponents() {
         description="Sawn timber, fibrous paper, coarse iron, and vivid paint."
       >
         <div className="rf-swatch-grid">
-          {swatches.map((swatch) => (
+          {materialSwatches.map((swatch) => (
             <div key={swatch.name}>
               <div
                 className="rf-swatch"
@@ -183,13 +202,13 @@ function AllComponents() {
           </Specimen>
           <Specimen name="Alert">
             <Alert title="Your changes are safe" tone="emerald">
-              Nothing left to save. Keep creating.
+              Your changes have been saved.
             </Alert>
           </Specimen>
           <Specimen name="Separator">
             <p className="rf-muted">Note title</p>
             <Separator />
-            <p className="rf-muted">A little breathing room.</p>
+            <p className="rf-muted">Second section content.</p>
           </Specimen>
           <Specimen name="Tabs">
             <Tabs
@@ -198,12 +217,12 @@ function AllComponents() {
                 {
                   value: "notes",
                   label: "Notes",
-                  content: "A place for your thoughts.",
+                  content: "Notes for the selected item.",
                 },
                 {
                   value: "history",
                   label: "History",
-                  content: "The story so far.",
+                  content: "Changes to the selected item.",
                 },
               ]}
             />

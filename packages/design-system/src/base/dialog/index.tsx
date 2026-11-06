@@ -1,6 +1,7 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { X } from "lucide-react";
 import type { ComponentProps, ReactElement, ReactNode } from "react";
+import { useTheme } from "../../theme/provider";
 
 export function Dialog({
   trigger,
@@ -14,13 +15,14 @@ export function Dialog({
   description: string;
   children: ReactNode;
 }) {
+  const theme = useTheme();
   return (
     <BaseDialog.Root {...props}>
       <BaseDialog.Trigger render={trigger} />
       <BaseDialog.Portal>
         <BaseDialog.Backdrop className="rf-dialog-backdrop" />
-        <BaseDialog.Popup className="rf-theme rf-dialog">
-          <div className="rf-dialog-sheet">
+        <BaseDialog.Popup className="rf-theme rf-dialog" data-theme={theme}>
+          <div className="rf-dialog-sheet rf-paper-surface">
             <div className="rf-dialog-header">
               <BaseDialog.Title className="rf-dialog-title">
                 {title}

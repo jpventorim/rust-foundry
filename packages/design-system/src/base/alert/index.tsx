@@ -14,7 +14,7 @@ export function Alert({
   return (
     <div
       {...props}
-      className="rf-alert"
+      className="rf-alert rf-paper-surface"
       data-tone={tone}
       role={tone === "ruby" ? "alert" : "status"}
     >

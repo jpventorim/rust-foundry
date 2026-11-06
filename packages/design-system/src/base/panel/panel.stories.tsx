@@ -68,3 +68,12 @@ export const LayeredMaterials: StoryObj = {
     </Panel>
   ),
 };
+
+export const Wood: StoryObj = {
+  render: () => (
+    <Panel material="wood">
+      <h2 className="rf-title">Timber backing</h2>
+      <p className="rf-muted">A supporting surface for mounted controls.</p>
+    </Panel>
+  ),
+};

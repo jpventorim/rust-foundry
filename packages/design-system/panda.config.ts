@@ -11,11 +11,11 @@ export default defineConfig({
     extend: {
       tokens: {
         colors: {
-          ink: { value: "#30271e" },
-          muted: { value: "#665541" },
-          paper: { value: "#f3e8cf" },
-          paperLight: { value: "#fff8e8" },
-          border: { value: "#b9a27c" },
+          ink: { value: "#30291f" },
+          muted: { value: "#655640" },
+          paper: { value: "#f4ecd9" },
+          paperLight: { value: "#fbf5e8" },
+          border: { value: "#b5a080" },
           gold: { value: "#e3b958" },
           ruby: { value: "#912e38" },
           emerald: { value: "#236044" },

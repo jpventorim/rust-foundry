@@ -173,8 +173,10 @@ bun run tauri build # Package the desktop app
 Rsbuild keeps port 1420 fixed for Tauri and uses `TAURI_DEV_HOST` for mobile
 development connections and hot reload. It injects the frontend entry into
 `index.html`; static files in `public/` are copied to `dist/`.
-Rstest checks every design-system story with axe and tests keyboard interactions,
-open overlays, and the responsive showcase. Biome uses the
+Rstest checks every design-system story with axe in light and dark themes and tests
+keyboard interactions, themed overlays, theme switching, and responsive compositions.
+[DESIGN.md](packages/design-system/DESIGN.md) defines
+the shared material and theme rules. Biome uses the
 recommended lint preset and respects Git ignores; vendored skills and generated
 output are excluded.
 

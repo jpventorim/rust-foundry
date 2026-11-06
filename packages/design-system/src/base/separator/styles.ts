@@ -12,7 +12,7 @@ export const separatorStyles = defineGlobalStyles({
     borderTopColor: "#626c6e",
     borderRadius: "0",
     background: "var(--rf-iron-texture, #3b4548)",
-    boxShadow: "0 1px 0 #30271e26",
+    boxShadow: "var(--rf-shadow-contact)",
     "&::before": {
       content: '""',
       position: "absolute",

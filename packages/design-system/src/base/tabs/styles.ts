@@ -1,7 +1,9 @@
 import { defineGlobalStyles } from "@pandacss/dev";
 
 export const tabsStyles = defineGlobalStyles({
-  ".rf-tabs": { minWidth: "0" },
+  ".rf-tabs": {
+    minWidth: "0",
+  },
   ".rf-tabs-list": {
     display: "flex",
     gap: "8px",
@@ -11,7 +13,7 @@ export const tabsStyles = defineGlobalStyles({
     border: "2px solid #16191a",
     borderRadius: "2px",
     background: "var(--rf-iron-texture)",
-    boxShadow: "inset 0 1px 0 #626466, inset 0 -4px 0 #191c1d, 0 2px 0 #17191a",
+    boxShadow: "inset 0 1px 0 var(--rf-edge-light), var(--rf-depth-mounted)",
     scrollbarWidth: "thin",
     scrollbarColor: "#b19a70 #242829",
   },
@@ -56,10 +58,9 @@ export const tabsStyles = defineGlobalStyles({
   ".rf-tab[data-active]": {
     background: "var(--rf-paper-texture)",
     borderColor: "#c2a363",
-    color: "#302310",
+    color: "var(--rf-paper-ink)",
     textShadow: "none",
-    boxShadow:
-      "inset 0 1px 0 #fff6d8, inset 0 -4px 0 #b78028, 0 2px 2px #101112",
+    boxShadow: "inset 0 -3px 0 var(--rf-gold), var(--rf-shadow-contact)",
   },
   ".rf-tabs-list .rf-tab:focus-visible": {
     outline: "3px solid var(--rf-focus)",
@@ -78,32 +79,58 @@ export const tabsStyles = defineGlobalStyles({
     cursor: "not-allowed",
   },
   ".rf-tab-panel": {
-    marginTop: "16px",
-    padding: "4px",
+    marginTop: "0",
+    padding: "16px",
     animation: "rf-reveal 220ms var(--rf-ease)",
+    "--rf-ink": "var(--rf-paper-ink)",
+    "--rf-muted": "var(--rf-paper-muted)",
+    "--rf-focus": "var(--rf-paper-focus)",
+    "--rf-error": "var(--rf-paper-error)",
+    color: "var(--rf-paper-ink)",
+    background: "var(--rf-paper-texture)",
+    border: "1px solid var(--rf-paper-edge)",
+    borderTop: "0",
+    boxShadow: "var(--rf-depth-paper)",
   },
-  ".rf-tab-panel[hidden]": { display: "none" },
+  ".rf-tab-panel[hidden]": {
+    display: "none",
+  },
   ".rf-tabs[data-orientation=vertical] .rf-tabs-list": {
     flexDirection: "column",
     alignItems: "stretch",
   },
   "@media (max-width: 480px)": {
-    ".rf-tabs-list": { gap: "6px" },
-    ".rf-tab": { paddingInline: "18px" },
+    ".rf-tabs-list": {
+      gap: "6px",
+    },
+    ".rf-tab": {
+      paddingInline: "18px",
+    },
   },
   "@media (prefers-reduced-motion: reduce)": {
-    ".rf-tab": { transition: "none" },
-    ".rf-tab-panel": { animation: "none" },
+    ".rf-tab": {
+      transition: "none",
+    },
+    ".rf-tab-panel": {
+      animation: "none",
+    },
   },
   "@media (forced-colors: active)": {
-    ".rf-tabs-list": { borderColor: "CanvasText" },
-    ".rf-tab": { borderColor: "ButtonText", textShadow: "none" },
+    ".rf-tabs-list": {
+      borderColor: "CanvasText",
+    },
+    ".rf-tab": {
+      borderColor: "ButtonText",
+      textShadow: "none",
+    },
     ".rf-tab[data-active]": {
       borderColor: "Highlight",
       outline: "2px solid Highlight",
       outlineOffset: "-4px",
     },
-    ".rf-tab[data-disabled]": { color: "GrayText" },
+    ".rf-tab[data-disabled]": {
+      color: "GrayText",
+    },
     ".rf-tabs-list .rf-tab:focus-visible": {
       outline: "3px solid Highlight",
       outlineOffset: "2px",

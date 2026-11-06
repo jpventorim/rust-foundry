@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "storybook-react-rsbuild";
+import { Panel } from "../panel";
 import { Textarea } from "./index";
 
 const meta = {
@@ -64,5 +65,17 @@ export const Narrow: StoryObj = {
         defaultValue="A short first line.\nA second thought."
       />
     </div>
+  ),
+};
+
+export const InPanel: StoryObj = {
+  render: () => (
+    <Panel>
+      <Textarea
+        label="Notes"
+        placeholder="Enter notes"
+        description="One paper surface, without a nested wooden frame."
+      />
+    </Panel>
   ),
 };

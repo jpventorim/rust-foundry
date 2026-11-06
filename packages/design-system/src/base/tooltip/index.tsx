@@ -1,5 +1,6 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { ReactElement } from "react";
+import { useTheme } from "../../theme/provider";
 
 export function Tooltip({
   children,
@@ -8,6 +9,7 @@ export function Tooltip({
   children: ReactElement;
   content: string;
 }) {
+  const theme = useTheme();
   return (
     <BaseTooltip.Provider delay={250}>
       <BaseTooltip.Root>
@@ -15,6 +17,7 @@ export function Tooltip({
         <BaseTooltip.Portal>
           <BaseTooltip.Positioner
             className="rf-theme rf-positioner"
+            data-theme={theme}
             sideOffset={10}
           >
             <BaseTooltip.Popup className="rf-tooltip" aria-hidden="true">

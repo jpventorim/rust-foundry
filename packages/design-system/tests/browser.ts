@@ -58,6 +58,7 @@ export async function audit(page: Page) {
 export function componentTests(
   prefix: string,
   interactions: Record<string, (page: Page) => Promise<void>> = {},
+  defaultStory = "default",
 ) {
   const stories = entries.filter(
     (entry) => entry.type === "story" && entry.id.startsWith(`${prefix}--`),
@@ -106,7 +107,11 @@ export function componentTests(
     });
   });
 
-  async function withStory(id: string, check: (page: Page) => Promise<void>) {
+  async function withStory(
+    id: string,
+    check: (page: Page) => Promise<void>,
+    theme: "light" | "dark",
+  ) {
     if (!browser) throw new Error("Browser not initialized");
     const context = await browser.newContext({
       viewport: { width: 1100, height: 900 },
@@ -116,15 +121,17 @@ export function componentTests(
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     try {
-      await page.goto(`${baseUrl}/iframe.html?id=${id}&viewMode=story`);
+      await page.goto(
+        `${baseUrl}/iframe.html?id=${id}&viewMode=story&globals=theme:${theme}`,
+      );
       await page.locator(".rf-story").waitFor({ state: "visible" });
       await check(page);
       expect(errors).toEqual([]);
     } finally {
       if (process.env.RF_CAPTURE_STORIES) {
-        mkdirSync("test-results/stories", { recursive: true });
+        mkdirSync(`test-results/stories/${theme}`, { recursive: true });
         await page.screenshot({
-          path: `test-results/stories/${id}.png`,
+          path: `test-results/stories/${theme}/${id}.png`,
           fullPage: true,
         });
       }
@@ -132,17 +139,23 @@ export function componentTests(
     }
   }
 
-  for (const story of stories) {
-    test(`${story.title} / ${story.name}: axe accessibility`, async () => {
-      await withStory(story.id, audit);
-    });
-  }
-  for (const [name, interaction] of Object.entries(interactions)) {
-    test(name, async () => {
-      await withStory(`${prefix}--default`, async (page) => {
-        await interaction(page);
-        await audit(page);
+  for (const theme of ["light", "dark"] as const) {
+    for (const story of stories) {
+      test(`${story.title} / ${story.name} / ${theme}: axe accessibility`, async () => {
+        await withStory(story.id, audit, theme);
       });
-    });
+    }
+    for (const [name, interaction] of Object.entries(interactions)) {
+      test(`${name} / ${theme}`, async () => {
+        await withStory(
+          `${prefix}--${defaultStory}`,
+          async (page) => {
+            await interaction(page);
+            await audit(page);
+          },
+          theme,
+        );
+      });
+    }
   }
 }

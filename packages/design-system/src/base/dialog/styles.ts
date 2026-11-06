@@ -28,8 +28,7 @@ export const dialogStyles = defineGlobalStyles({
     borderRadius: "3px 2px 2px 3px",
     background: "var(--rf-wood-texture)",
     color: "#30271e",
-    boxShadow:
-      "inset 0 1px #b08d68, inset 0 -4px #38251c, 0 5px 0 #251d18, 0 22px 48px #0008",
+    boxShadow: "var(--rf-depth-overlay)",
     transition: "opacity 180ms ease-out",
     fontFamily: "system-ui, sans-serif",
     fontSize: "15px",
@@ -91,6 +90,11 @@ export const dialogStyles = defineGlobalStyles({
       borderColor: "CanvasText",
       boxShadow: "none",
     },
+    "--rf-ink": "var(--rf-paper-ink)",
+    "--rf-muted": "var(--rf-paper-muted)",
+    "--rf-focus": "var(--rf-paper-focus)",
+    "--rf-error": "var(--rf-paper-error)",
+    color: "var(--rf-paper-ink)",
   },
   ".rf-dialog-header": {
     display: "flex",

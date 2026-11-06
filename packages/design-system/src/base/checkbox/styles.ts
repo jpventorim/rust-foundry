@@ -44,8 +44,7 @@ export const checkboxStyles = defineGlobalStyles({
     border: "3px solid #30383a",
     borderRadius: "2px",
     background: "var(--rf-wood-texture)",
-    boxShadow:
-      "inset 0 1px 0 #ab8260, inset 0 -2px 0 #2c1c14, 0 2px 0 #201b17, 0 3px 2px #201b1738",
+    boxShadow: "inset 0 1px 0 var(--rf-edge-light), var(--rf-depth-mounted)",
     pointerEvents: "none",
   },
   ".rf-checkbox:hover:not([data-disabled])::before": {
@@ -65,9 +64,13 @@ export const checkboxStyles = defineGlobalStyles({
   },
   ".rf-checkbox[data-disabled] .rf-checkbox-indicator": {
     background: "var(--rf-paper-texture)",
-    color: "var(--rf-ink)",
+    color: "var(--rf-paper-ink)",
     borderColor: "#81715b",
     boxShadow: "inset 0 1px 0 #fff8e8, inset 0 -1px 0 #b9a27c",
+    "--rf-ink": "var(--rf-paper-ink)",
+    "--rf-muted": "var(--rf-paper-muted)",
+    "--rf-focus": "var(--rf-paper-focus)",
+    "--rf-error": "var(--rf-paper-error)",
   },
   ".rf-checkbox::after": {
     content: '""',

@@ -59,3 +59,26 @@ and performed three rounds; the main agent reviewed integration and rendered out
 - Reviewed the combined desktop specimen and the dialog, popover, tooltip, panel,
   tabs, switch, and alert surfaces in the browser. Narrow and forced-color
   screenshots are captured by the suite.
+
+## Third pass — Scene cohesion and light/dark materials
+
+This pass fixes both the scene hierarchy and material CSS: quiet timber
+supports paper work areas; fields integrate into existing paper instead of stacking
+wood frames; standalone inserts retain physical edges and clips.
+
+Shared theme contracts now distinguish ambient ink from paper ink. ThemeProvider,
+the Storybook toolbar, and explicit theme scope on portals support light, dark,
+and mixed-theme compositions. Contact shadows and material grain use shared
+tokens. Tabs have attached paper content and progress labels share their parent
+surface. The full showcase uses the current theme's actual material swatches.
+
+Visual review found two additional scene defects: component wood grain was too
+prominent behind page headings, and Storybook's padded layout left light gutters
+around dark canvases. A separate quiet canvas texture and fullscreen preview
+layout resolve those issues. Narrow layouts and mixed themes are shown explicitly.
+
+Validation: 252 browser checks across 22 files, including default-rule axe audits
+for all 92 stories in both themes. Package lint, types, formatting, production
+builds, and both strict Clippy checks pass. Repository-wide Biome separately
+reports the existing missing title in `public/rusty_bob.svg`; it remains outside
+this material pass. Screen-reader and eventual product-context reviews remain.

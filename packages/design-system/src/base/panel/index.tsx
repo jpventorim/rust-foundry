@@ -14,11 +14,11 @@ export function Panel({
   material = "parchment",
   children,
   ...props
-}: ComponentProps<"div"> & { material?: "parchment" | "leather" }) {
+}: ComponentProps<"div"> & { material?: "parchment" | "leather" | "wood" }) {
   return (
     <div
       {...props}
-      className={`rf-panel ${className}`}
+      className={`rf-panel ${material === "parchment" ? "rf-paper-surface" : ""} ${className}`}
       data-material={material}
     >
       {joinery}

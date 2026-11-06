@@ -15,10 +15,9 @@ export const avatarStyles = defineGlobalStyles({
     border: "1px solid #1b2326",
     borderRadius: "47% 49% 46% 48%",
     overflow: "hidden",
-    color: "#30271e",
+    color: "var(--rf-paper-ink)",
     background: "var(--rf-iron-texture)",
-    boxShadow:
-      "inset 0 1px 0 #a4acad66, inset 0 -2px 0 #161d21, 0 2px 0 #182023, 0 3px 3px #0003",
+    boxShadow: "inset 0 1px 0 var(--rf-edge-light), var(--rf-depth-mounted)",
     "&::after": {
       content: '""',
       position: "absolute",
@@ -28,20 +27,32 @@ export const avatarStyles = defineGlobalStyles({
       boxShadow: "inset 0 2px 3px #0006",
       pointerEvents: "none",
     },
+    "--rf-ink": "var(--rf-paper-ink)",
+    "--rf-muted": "var(--rf-paper-muted)",
+    "--rf-focus": "var(--rf-paper-focus)",
+    "--rf-error": "var(--rf-paper-error)",
   },
   '.rf-avatar[data-size="sm"]': {
     width: "36px",
     height: "36px",
     padding: "3px",
-    "&::after": { inset: "3px" },
-    "& .rf-avatar-fallback": { fontSize: "12px" },
+    "&::after": {
+      inset: "3px",
+    },
+    "& .rf-avatar-fallback": {
+      fontSize: "12px",
+    },
   },
   '.rf-avatar[data-size="lg"]': {
     width: "72px",
     height: "72px",
     padding: "5px",
-    "&::after": { inset: "5px" },
-    "& .rf-avatar-fallback": { fontSize: "26px" },
+    "&::after": {
+      inset: "5px",
+    },
+    "& .rf-avatar-fallback": {
+      fontSize: "26px",
+    },
   },
   ".rf-avatar-image": {
     width: "100%",
@@ -66,8 +77,14 @@ export const avatarStyles = defineGlobalStyles({
       background: "Canvas",
       borderColor: "CanvasText",
       boxShadow: "none",
-      "&::after": { borderColor: "CanvasText", boxShadow: "none" },
+      "&::after": {
+        borderColor: "CanvasText",
+        boxShadow: "none",
+      },
     },
-    ".rf-avatar-fallback": { background: "Canvas", color: "CanvasText" },
+    ".rf-avatar-fallback": {
+      background: "Canvas",
+      color: "CanvasText",
+    },
   },
 });

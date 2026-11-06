@@ -1,11 +1,13 @@
 import { defineGlobalStyles } from "@pandacss/dev";
+import { darkTheme, lightTheme, paperSurface } from "./contracts";
 import { materialTokens } from "./materials";
 
 export const foundationStyles = defineGlobalStyles({
   ":root": {
     ...materialTokens,
-    "--rf-ink": "token(colors.ink)",
-    "--rf-muted": "token(colors.muted)",
+    ...lightTheme,
+    "--rf-ink": "var(--rf-canvas-ink)",
+    "--rf-muted": "var(--rf-canvas-muted)",
     "--rf-paper": "token(colors.paper)",
     "--rf-paper-light": "token(colors.paperLight)",
     "--rf-border": "token(colors.border)",
@@ -19,8 +21,33 @@ export const foundationStyles = defineGlobalStyles({
     "--rf-font-display": 'Georgia, "Times New Roman", serif',
     "--rf-ease": "cubic-bezier(0.2, 0.8, 0.2, 1)",
     "--rf-shadow": "1px 3px 0 #30271e70, 2px 5px 0 #20190e1f",
+    "--rf-shadow-contact": "1px 2px 2px #21180e26",
+    "--rf-depth-paper": "0 1px 0 var(--rf-paper-edge), 1px 2px 2px #21180e26",
+    "--rf-depth-inset": "inset 0 1px 1px #30271e20",
+    "--rf-depth-mounted": "0 2px 0 var(--rf-wood-edge), 1px 3px 2px #21180e33",
+    "--rf-depth-pressed":
+      "inset 0 1px 2px #21180e40, 0 1px 0 var(--rf-wood-edge)",
+    "--rf-depth-overlay":
+      "0 2px 0 var(--rf-wood-edge), 3px 10px 20px #17120e40",
+    "--rf-edge-light": "#fff4df40",
+    "--rf-rule": "#66554120",
+    "--rf-motion-control": "160ms",
+    "--rf-motion-sheet": "220ms",
+    "--rf-label-size": "14px",
+  },
+  '.rf-theme[data-theme="light"]': {
+    ...lightTheme,
+    "--rf-ink": "var(--rf-canvas-ink)",
+    "--rf-muted": "var(--rf-canvas-muted)",
   },
   ".rf-theme": {
+    ...materialTokens,
+    "--rf-depth-paper": "0 1px 0 var(--rf-paper-edge), 1px 2px 2px #21180e26",
+    "--rf-depth-mounted": "0 2px 0 var(--rf-wood-edge), 1px 3px 2px #21180e33",
+    "--rf-depth-pressed":
+      "inset 0 1px 2px #21180e40, 0 1px 0 var(--rf-wood-edge)",
+    "--rf-depth-overlay":
+      "0 2px 0 var(--rf-wood-edge), 3px 10px 20px #17120e40",
     color: "var(--rf-ink)",
     fontFamily: "var(--rf-font-body)",
     fontSize: "15px",
@@ -28,6 +55,35 @@ export const foundationStyles = defineGlobalStyles({
     colorScheme: "light",
     WebkitFontSmoothing: "antialiased",
   },
+  '.rf-theme[data-theme="dark"]': {
+    ...darkTheme,
+    "--rf-ink": "var(--rf-canvas-ink)",
+    "--rf-muted": "var(--rf-canvas-muted)",
+    colorScheme: "dark",
+  },
+  ".rf-workbench": {
+    background: "var(--rf-canvas-texture)",
+    color: "var(--rf-canvas-ink)",
+    minHeight: "100vh",
+  },
+  ".rf-surface-paper": {
+    ...paperSurface,
+    background: "var(--rf-paper-texture)",
+    border: "1px solid var(--rf-paper-edge)",
+    padding: "24px",
+    boxShadow: "var(--rf-depth-paper)",
+  },
+  ".rf-surface-wood": {
+    "--rf-ink": "var(--rf-wood-ink)",
+    "--rf-muted": "#dfceb4",
+    "--rf-focus": "#b1d8ff",
+    color: "var(--rf-wood-ink)",
+    background: "var(--rf-wood-texture)",
+    padding: "24px",
+    border: "1px solid var(--rf-wood-edge)",
+    boxShadow: "var(--rf-depth-mounted)",
+  },
+  ".rf-paper-surface": { ...paperSurface, colorScheme: "light" },
   ".rf-theme *, .rf-theme *::before, .rf-theme *::after": {
     boxSizing: "border-box",
   },
@@ -71,7 +127,7 @@ export const foundationStyles = defineGlobalStyles({
   ".rf-stack": {
     display: "flex",
     flexDirection: "column",
-    gap: "18px",
+    gap: "16px",
   },
   ".rf-row": {
     display: "flex",
@@ -100,12 +156,12 @@ export const foundationStyles = defineGlobalStyles({
   },
   ".rf-label": {
     fontWeight: "650",
-    fontSize: "0.84rem",
+    fontSize: "var(--rf-label-size)",
     letterSpacing: "0.01em",
   },
   ".rf-error": {
     fontSize: "0.82rem",
-    color: "#9c2331",
+    color: "var(--rf-error)",
     fontWeight: "600",
   },
   ".rf-eyebrow": {
@@ -145,5 +201,23 @@ export const foundationStyles = defineGlobalStyles({
         transition: "none !important",
         scrollBehavior: "auto !important",
       },
+  },
+  "@media (forced-colors: active)": {
+    ".rf-theme, .rf-theme[data-theme], .rf-paper-surface, .rf-surface-wood": {
+      "--rf-canvas-ink": "CanvasText",
+      "--rf-canvas-muted": "CanvasText",
+      "--rf-ink": "CanvasText",
+      "--rf-muted": "CanvasText",
+      "--rf-paper-ink": "CanvasText",
+      "--rf-paper-muted": "CanvasText",
+      "--rf-paper": "Canvas",
+      "--rf-paper-light": "Canvas",
+      "--rf-paper-edge": "CanvasText",
+      "--rf-focus": "Highlight",
+      "--rf-paper-focus": "Highlight",
+      "--rf-error": "CanvasText",
+      color: "CanvasText",
+      colorScheme: "light",
+    },
   },
 });

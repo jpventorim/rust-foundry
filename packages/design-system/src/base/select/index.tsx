@@ -1,21 +1,45 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
+import { useId } from "react";
+import { type FieldSurface, useTheme } from "../../theme/provider";
 import type { Choice } from "../types";
 
 export function Select({
   label,
   items,
   placeholder = "Choose an option",
+  surface = "auto",
+  description,
+  error,
+  id: providedId,
   ...props
 }: Omit<
   BaseSelect.Root.Props<string, false>,
   "items" | "children" | "multiple"
-> & { label: string; items: readonly Choice[]; placeholder?: string }) {
+> & {
+  label: string;
+  items: readonly Choice[];
+  placeholder?: string;
+  surface?: FieldSurface;
+  description?: string;
+  error?: string;
+}) {
+  const theme = useTheme();
+  const generatedId = useId();
+  const id = providedId ?? generatedId;
+  const details =
+    [description && `${id}-description`, error && `${id}-error`]
+      .filter(Boolean)
+      .join(" ") || undefined;
   return (
-    <div className="rf-field rf-select-field">
-      <BaseSelect.Root {...props} items={items}>
+    <div className="rf-field rf-select-field" data-surface={surface}>
+      <BaseSelect.Root {...props} id={id} items={items}>
         <BaseSelect.Label className="rf-label">{label}</BaseSelect.Label>
-        <BaseSelect.Trigger className="rf-select-trigger">
+        <BaseSelect.Trigger
+          className="rf-select-trigger"
+          aria-invalid={error ? true : undefined}
+          aria-describedby={details}
+        >
           <BaseSelect.Value
             className="rf-select-value"
             placeholder={placeholder}
@@ -29,10 +53,11 @@ export function Select({
             role="region"
             aria-label={`${label} options`}
             className="rf-theme rf-positioner rf-select-positioner"
+            data-theme={theme}
             sideOffset={8}
             alignItemWithTrigger={false}
           >
-            <BaseSelect.Popup className="rf-select-popup">
+            <BaseSelect.Popup className="rf-select-popup rf-paper-surface">
               <BaseSelect.List className="rf-select-list">
                 {items.map((item) => (
                   <BaseSelect.Item
@@ -57,6 +82,16 @@ export function Select({
           </BaseSelect.Positioner>
         </BaseSelect.Portal>
       </BaseSelect.Root>
+      {description && (
+        <span className="rf-hint" id={`${id}-description`}>
+          {description}
+        </span>
+      )}
+      {error && (
+        <span className="rf-error" id={`${id}-error`}>
+          {error}
+        </span>
+      )}
     </div>
   );
 }

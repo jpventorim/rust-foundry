@@ -23,10 +23,9 @@ export const buttonStyles = defineGlobalStyles({
     fontWeight: "700",
     fontSize: "0.87rem",
     lineHeight: "1.4",
-    background:
-      "var(--rf-wood-grain), linear-gradient(180deg, #ffffff0a, #00000014), var(--rf-accent, #912e38)",
+    background: "var(--rf-iron-grain), var(--rf-accent, #912e38)",
     boxShadow:
-      "inset 0 1px 0 #ffffff45, inset 0 -2px 0 #00000040, 0 4px 0 #20282b, 0 5px 0 #101719, 1px 6px 2px #17120f40",
+      "inset 0 1px 0 var(--rf-edge-light), inset 0 -1px 0 #0003, var(--rf-depth-mounted)",
     textShadow: "0 1px 0 #00000050",
     transition:
       "transform 160ms var(--rf-ease), box-shadow 160ms var(--rf-ease), background-color 160ms",
@@ -41,29 +40,26 @@ export const buttonStyles = defineGlobalStyles({
     borderRadius: "1px",
   },
   ".rf-button:hover:not(:disabled, [data-disabled])": {
-    boxShadow:
-      "inset 0 1px 0 #ffffff70, inset 0 -2px 0 #00000040, inset 0 0 0 2px #ffffff16, 0 4px 0 #20282b, 0 5px 0 #101719, 1px 6px 2px #17120f40",
+    boxShadow: "inset 0 1px 0 #fff6, var(--rf-depth-mounted)",
   },
   ".rf-button:active:not(:disabled, [data-disabled])": {
-    transform: "translateY(3px)",
-    boxShadow:
-      "inset 0 2px 0 #00000050, inset 0 0 0 1px #00000024, 0 1px 0 #20282b, 0 2px 0 #101719",
+    transform: "translateY(1px)",
+    boxShadow: "var(--rf-depth-pressed)",
   },
   '.rf-button[data-variant="outline"]': {
     background: "var(--rf-paper-texture)",
-    color: "var(--rf-ink)",
+    color: "var(--rf-paper-ink)",
     borderColor: "#593b2b",
     textShadow: "none",
-    boxShadow:
-      "inset 0 1px 0 #fff8, inset 0 0 0 2px var(--rf-accent), 0 4px 0 #38261c, 0 5px 0 #201910",
+    boxShadow: "inset 0 0 0 1px var(--rf-accent), var(--rf-depth-mounted)",
   },
   '.rf-button[data-variant="outline"]:hover:not(:disabled, [data-disabled])': {
-    boxShadow:
-      "inset 0 1px 0 #fff8, inset 0 0 0 3px var(--rf-accent), 0 4px 0 #38261c, 0 5px 0 #201910",
+    boxShadow: "inset 0 0 0 1px var(--rf-accent), var(--rf-depth-mounted)",
+    color: "var(--rf-paper-ink)",
   },
   '.rf-button[data-variant="outline"]:active:not(:disabled, [data-disabled])': {
-    boxShadow:
-      "inset 0 2px 0 #593b2b40, inset 0 0 0 2px var(--rf-accent), 0 1px 0 #38261c, 0 2px 0 #201910",
+    boxShadow: "var(--rf-depth-pressed)",
+    color: "var(--rf-paper-ink)",
   },
   '.rf-button[data-tone="gold"]': {
     textShadow: "none",
@@ -82,12 +78,14 @@ export const buttonStyles = defineGlobalStyles({
     background: "var(--rf-paper-texture)",
     borderColor: "#665541",
     boxShadow: "inset 0 -2px 0 #b9a27c",
+    color: "var(--rf-paper-ink)",
   },
   '.rf-button[data-variant="ghost"]:active:not(:disabled, [data-disabled])': {
     transform: "translateY(1px)",
     background: "var(--rf-paper-texture)",
     borderColor: "#665541",
     boxShadow: "inset 0 2px 0 #66554140",
+    color: "var(--rf-paper-ink)",
   },
   ".rf-button:focus-visible": {
     outline: "3px solid var(--rf-focus, #204f91)",
@@ -107,16 +105,24 @@ export const buttonStyles = defineGlobalStyles({
   },
   ".rf-button:is(:disabled, [data-disabled])": {
     cursor: "not-allowed",
-    boxShadow: "inset 0 1px 0 #fff8, 0 1px 0 #665541",
+    boxShadow: "var(--rf-depth-paper)",
     background: "var(--rf-paper-grain), #ded5c3",
-    color: "#665541",
+    color: "var(--rf-paper-muted)",
     borderColor: "#8a7a63",
     textShadow: "none",
+    "--rf-ink": "var(--rf-paper-ink)",
+    "--rf-muted": "var(--rf-paper-muted)",
+    "--rf-focus": "var(--rf-paper-focus)",
+    "--rf-error": "var(--rf-paper-error)",
   },
   "@media (prefers-reduced-motion: reduce)": {
-    ".rf-button": { transition: "none" },
+    ".rf-button": {
+      transition: "none",
+    },
     ".rf-button:active:not(:disabled, [data-disabled]), .rf-button[data-variant=ghost]:active:not(:disabled, [data-disabled])":
-      { transform: "none" },
+      {
+        transform: "none",
+      },
   },
   "@media (forced-colors: active)": {
     ".rf-button, .rf-button[data-variant]": {
@@ -126,14 +132,18 @@ export const buttonStyles = defineGlobalStyles({
       boxShadow: "none",
       textShadow: "none",
     },
-    ".rf-button::before, .rf-button::after": { display: "none" },
+    ".rf-button::before, .rf-button::after": {
+      display: "none",
+    },
     ".rf-button[data-variant]:is(:hover, :active):not(:disabled, [data-disabled])":
       {
         background: "ButtonFace",
         boxShadow: "none",
         borderColor: "Highlight",
       },
-    ".rf-button:focus-visible": { outlineColor: "Highlight" },
+    ".rf-button:focus-visible": {
+      outlineColor: "Highlight",
+    },
     ".rf-button:is(:disabled, [data-disabled])": {
       color: "GrayText",
       borderColor: "GrayText",

@@ -1,5 +1,6 @@
 import { Input } from "@base-ui/react/input";
 import { type ComponentProps, useId } from "react";
+import type { FieldSurface } from "../../theme/provider";
 import type { FieldDetails } from "../types";
 
 export function TextField({
@@ -8,9 +9,10 @@ export function TextField({
   error,
   id: providedId,
   className = "",
+  surface = "auto",
   ...props
 }: Omit<ComponentProps<typeof Input>, "className"> &
-  FieldDetails & { className?: string }) {
+  FieldDetails & { className?: string; surface?: FieldSurface }) {
   const generatedId = useId();
   const id = providedId ?? generatedId;
   const details =
@@ -22,7 +24,10 @@ export function TextField({
       .filter(Boolean)
       .join(" ") || undefined;
   return (
-    <div className={`rf-field rf-text-field ${className}`}>
+    <div
+      className={`rf-field rf-text-field ${className}`}
+      data-surface={surface}
+    >
       <label className="rf-label" htmlFor={id}>
         {label}
       </label>

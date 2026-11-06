@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "storybook-react-rsbuild";
+import { Panel } from "../panel";
 import { Select } from "./index";
 
 const meta = {
@@ -85,5 +86,20 @@ export const ReadOnly: StoryObj = {
         { value: "elvish", label: "Elvish" },
       ]}
     />
+  ),
+};
+
+export const InPanel: StoryObj = {
+  render: () => (
+    <Panel>
+      <Select
+        label="Language"
+        items={[
+          { value: "common", label: "Common" },
+          { value: "elvish", label: "Elvish" },
+        ]}
+        defaultValue="common"
+      />
+    </Panel>
   ),
 };

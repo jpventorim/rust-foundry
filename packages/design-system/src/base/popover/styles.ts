@@ -14,7 +14,7 @@ export const popoverStyles = defineGlobalStyles({
     background: "var(--rf-paper-texture)",
     border: "1px solid #9a805a",
     borderRadius: "1px",
-    boxShadow: "3px 3px 0 #c8b38c, 4px 4px 0 #80694a, 5px 7px 0 #231b1438",
+    boxShadow: "var(--rf-depth-overlay)",
     transformOrigin: "var(--transform-origin)",
     transition: "opacity 160ms ease",
     outline: "none",
@@ -31,6 +31,11 @@ export const popoverStyles = defineGlobalStyles({
     overscrollBehavior: "contain",
     fontSize: "15px",
     lineHeight: "1.6",
+    "--rf-ink": "var(--rf-paper-ink)",
+    "--rf-muted": "var(--rf-paper-muted)",
+    "--rf-focus": "var(--rf-paper-focus)",
+    "--rf-error": "var(--rf-paper-error)",
+    color: "var(--rf-paper-ink)",
   },
   ".rf-popover-header": {
     display: "flex",
@@ -98,12 +103,22 @@ export const popoverStyles = defineGlobalStyles({
     border: "1px solid #1c2629",
     borderRadius: "50%",
   },
-  '.rf-popover-attachment[data-side="bottom"]': { top: "-12px" },
-  '.rf-popover-attachment[data-side="top"]': { bottom: "-12px" },
-  '.rf-popover-attachment[data-side="left"]': { right: "-12px" },
-  '.rf-popover-attachment[data-side="right"]': { left: "-12px" },
+  '.rf-popover-attachment[data-side="bottom"]': {
+    top: "-12px",
+  },
+  '.rf-popover-attachment[data-side="top"]': {
+    bottom: "-12px",
+  },
+  '.rf-popover-attachment[data-side="left"]': {
+    right: "-12px",
+  },
+  '.rf-popover-attachment[data-side="right"]': {
+    left: "-12px",
+  },
   "@media (prefers-reduced-motion: reduce)": {
-    ".rf-popover": { transition: "none" },
+    ".rf-popover": {
+      transition: "none",
+    },
   },
   "@media (forced-colors: active)": {
     ".rf-popover, .rf-popover-close, .rf-popover-attachment": {
@@ -112,13 +127,19 @@ export const popoverStyles = defineGlobalStyles({
       borderColor: "CanvasText",
       boxShadow: "none",
     },
-    ".rf-popover-description": { color: "CanvasText" },
+    ".rf-popover-description": {
+      color: "CanvasText",
+    },
     ".rf-popover-close:hover": {
       color: "ButtonText",
       borderColor: "Highlight",
     },
-    ".rf-popover-attachment::after": { background: "CanvasText" },
-    ".rf-popover-header": { borderColor: "CanvasText" },
+    ".rf-popover-attachment::after": {
+      background: "CanvasText",
+    },
+    ".rf-popover-header": {
+      borderColor: "CanvasText",
+    },
     ".rf-popover-close:focus-visible, .rf-popover:focus-visible": {
       outlineColor: "Highlight",
     },
